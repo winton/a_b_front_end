@@ -25,23 +25,26 @@ Require do
       gem :sinatra
     end
     email 'mail@wintoni.us'
-    name 'gem_template'
+    name 'a_b_front_end'
     homepage "http://github.com/winton/#{name}"
     summary ""
     version '0.1.0'
   end
   
-  bin { require 'lib/gem_template' }
+  bin { require 'lib/a_b_front_end' }
   
   console do
     gem :active_wrapper
     gem :sinatra
+    load_path 'vendor/a_b_plugin/lib'
     load_path 'vendor/authlogic/lib'
+    require 'a_b_plugin'
     require 'authlogic'
-    require 'lib/gem_template/boot/application'
-    require 'lib/gem_template/boot/sinatra'
-    require 'lib/gem_template/boot/active_wrapper'
-    require 'lib/gem_template/boot/model'
+    require 'lib/a_b_front_end/boot/application'
+    require 'lib/a_b_front_end/boot/a_b'
+    require 'lib/a_b_front_end/boot/sinatra'
+    require 'lib/a_b_front_end/boot/active_wrapper'
+    require 'lib/a_b_front_end/boot/model'
   end
   
   lib do
@@ -49,17 +52,20 @@ Require do
     gem :sinatra
     gem :active_wrapper
     gem :'rack-flash'
+    load_path 'vendor/a_b_plugin/lib'
     load_path 'vendor/authlogic/lib'
     require 'authlogic'
-    require 'lib/gem_template/boot/application'
-    require 'lib/gem_template/boot/sinatra'
-    require 'lib/gem_template/boot/session'
-    require 'lib/gem_template/boot/flash'
-    require 'lib/gem_template/boot/active_wrapper'
-    require 'lib/gem_template/boot/lilypad'
-    require 'lib/gem_template/boot/controller'
-    require 'lib/gem_template/boot/helper'
-    require 'lib/gem_template/boot/model'
+    require 'lib/a_b_front_end/boot/application'
+    require 'lib/a_b_front_end/boot/sinatra'
+    require 'lib/a_b_front_end/boot/session'
+    require 'lib/a_b_front_end/boot/flash'
+    require 'lib/a_b_front_end/boot/active_wrapper'
+    require 'a_b_plugin'
+    require 'lib/a_b_front_end/boot/a_b'
+    require 'lib/a_b_front_end/boot/lilypad'
+    require 'lib/a_b_front_end/boot/controller'
+    require 'lib/a_b_front_end/boot/helper'
+    require 'lib/a_b_front_end/boot/model'
   end
   
   rakefile do
@@ -72,7 +78,7 @@ Require do
   spec_helper do
     gem :'rack-test'
     require 'require/spec_helper'
-    require 'lib/gem_template'
+    require 'lib/a_b_front_end'
     require 'pp'
   end
 end

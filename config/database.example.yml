@@ -1,6 +1,6 @@
 development:
   adapter: mysql
-  database: gem_template
+  database: a_b_front_end
   username: root
   password:
   host: localhost

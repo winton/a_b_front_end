@@ -1,0 +1,5 @@
+.dashboard .header img { cursor: pointer; margin-top: 2.5em; vertical-align: -2px; }
+.dashboard .selectable { background: #E5ECF9; border: 2px solid #C2D2EF; float: left; line-height: 40px; margin: 15px 15px 0 0; text-align: center; width: 141px; }
+.dashboard .selectable.last { margin-right: 0; }
+.dashboard .selectable form { margin-top: -3px; }
+.dashboard .selectable input { margin: 0 auto; text-align: center; width: 90%; }

@@ -1,0 +1,15 @@
+Application.class_eval do
+  
+  post '/users/create' do
+    @user = User.create(params[:user])
+    if @user.id
+      ABPlugin::API.create_user(
+        :identifier => @user.id,
+        :token => @user.single_access_token
+      )
+      redirect '/'
+    else
+      haml :front
+    end
+  end
+end

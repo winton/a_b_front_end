@@ -1,0 +1,20 @@
+- @css = @js = %w(dashboard)
+/.success This is a test!
+.dashboard
+  .span-12
+    .header
+      Sites&nbsp;
+      %img{ :class => 'add', :rel => 'sites', :src => '/image/add.png' }
+      %img{ :class => 'remove hidden', :src => '/image/remove.png' }
+    - @sites.each do |site|
+      .selectable= site['name']
+  .span-12.last.hide
+    .header
+      Environments&nbsp;
+      %img{ :class => 'add', :src => '/image/add.png' }
+      %img{ :class => 'remove hidden', :src => '/image/remove.png' }
+  .span-24.last.hide
+    .header
+      Categories&nbsp;
+      %img{ :class => 'add', :src => '/image/add.png' }
+      %img{ :class => 'remove hidden', :src => '/image/remove.png' }

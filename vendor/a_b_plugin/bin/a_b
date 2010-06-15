@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(File.dirname(__FILE__) + "/../require")
+Require.bin!
+
+ABPlugin do
+  binary true
+  root Dir.pwd
+end
+ABPlugin.new

@@ -1,0 +1,58 @@
+!!! 1.1
+%html
+  %head
+    = css 'blueprint/screen'
+    = css 'blueprint/print', 'print'
+    /[if IE 8]
+      = css 'blueprint/ie'
+    = css 'layout'
+    - stylesheets do |path|
+      = css path
+    %title= @title || 'a_b'
+  %body
+    .container
+      .top
+        .span-12
+          .logo a_b
+        - if current_user
+          .span-12.last
+            .span-3.nav
+              %a{ :href => '/' } Dashboard
+            .span-3.nav
+              %a{ :href => '/setup' } Setup
+            .span-3.nav
+              %a{ :href => '/account' } Account
+            .span-3.nav.last
+              %a{ :href => '/sessions/destroy' } Log out
+        - else
+          .span-12.last
+            .span-3.nav
+              %a.sign_up Sign up
+            .span-3.nav
+              %a{ :href => 'http://github.com/winton/a_b_plugin' } Github
+            .span-3.nav
+              %a{ :href => '/help' } Help
+            .span-3.nav.last
+              %a.log_in Log in
+            .clear
+            .dialog.sign_up.hidden
+              %form{ :action => '/users/create', :method => 'post' }
+                %label Email
+                %input.email{ :name => 'user[email]', :type => 'text' }
+                %label Password
+                %input.password{ :name => 'user[password]', :type => 'password' }
+                %label.confirm Confirm
+                %input.password{ :name => 'user[password_confirmation]', :type => 'password' }
+                %input.submit{ :type => 'submit', :value => 'Submit' }
+            .dialog.log_in.hidden
+              %form{ :action => '/sessions/create', :method => 'post' }
+                %label Email
+                %input.email{ :name => 'session[email]', :type => 'text' }
+                %label Password
+                %input.password{ :name => 'session[password]', :type => 'password' }
+                %input.submit{ :type => 'submit', :value => 'Submit' }
+      = yield
+    = js 'jquery'
+    = js 'layout'
+    - javascripts do |path|
+      = js path
