@@ -1,6 +1,6 @@
 Application.class_eval do
 
-  post '/sessions/create' do
+  post '/sessions' do
     @user_session = UserSession.new(params[:session])
     @user_session.save
     redirect '/'

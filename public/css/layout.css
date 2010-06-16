@@ -1,5 +1,4 @@
 body { font-size: 100%; }
-.hidden { display: none; }
 .error, .notice, .success { margin-top: 2.5em; text-align: center; }
 
 .dialog { border: 2px solid #CFCFCF; }

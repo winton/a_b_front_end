@@ -35,7 +35,7 @@
             .span-3.nav.last
               %a.log_in Log in
             .clear
-            .dialog.sign_up.hidden
+            .dialog.sign_up.hide
               %form{ :action => '/users/create', :method => 'post' }
                 %label Email
                 %input.email{ :name => 'user[email]', :type => 'text' }
@@ -44,7 +44,7 @@
                 %label.confirm Confirm
                 %input.password{ :name => 'user[password_confirmation]', :type => 'password' }
                 %input.submit{ :type => 'submit', :value => 'Submit' }
-            .dialog.log_in.hidden
+            .dialog.log_in.hide
               %form{ :action => '/sessions/create', :method => 'post' }
                 %label Email
                 %input.email{ :name => 'session[email]', :type => 'text' }
@@ -56,3 +56,5 @@
     = js 'layout'
     - javascripts do |path|
       = js path
+    - if @sites
+      %script= "window.dashboard = new Dashboard(#{@sites.to_json});"

@@ -1,5 +1,6 @@
 .dashboard .header img { cursor: pointer; margin-top: 2.5em; vertical-align: -2px; }
-.dashboard .selectable { background: #E5ECF9; border: 2px solid #C2D2EF; float: left; line-height: 40px; margin: 15px 15px 0 0; text-align: center; width: 141px; }
+.dashboard .selectable { background: #E5ECF9; border: 2px solid #C2D2EF; color: #000099; cursor: pointer; float: left; line-height: 40px; margin: 15px 15px 0 0; text-align: center; text-decoration: underline; width: 141px; }
+.dashboard .selectable.selected { background: #E6EFC2; border-color: #C6D880; color: #264409; text-decoration: none; }
 .dashboard .selectable.last { margin-right: 0; }
 .dashboard .selectable form { margin-top: -3px; }
 .dashboard .selectable input { margin: 0 auto; text-align: center; width: 90%; }

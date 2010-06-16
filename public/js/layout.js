@@ -4,12 +4,12 @@ $(function() {
 		$('.top a').not(this).removeClass('selected');
 		if (class_name.length) {
 			$(this).toggleClass('selected');
-			$('.dialog.' + class_name).toggleClass('hidden');
-			$('.dialog:not(.' + class_name + ')').addClass('hidden');
+			$('.dialog.' + class_name).toggleClass('hide');
+			$('.dialog:not(.' + class_name + ')').addClass('hide');
 			$('.dialog.' + class_name + ':visible input:first').focus();
 			return false;
 		} else {
-			$('.dialog').addClass('hidden');
+			$('.dialog').addClass('hide');
 			return true;
 		}
 	});

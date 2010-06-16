@@ -1,6 +1,6 @@
 Application.class_eval do
   
-  post '/users/create' do
+  post '/users' do
     @user = User.create(params[:user])
     if @user.id
       ABPlugin::API.create_user(
