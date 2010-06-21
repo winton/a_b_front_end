@@ -18,3 +18,26 @@
       Categories&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
+  .span-24.last.hide.filter#tests
+    .header
+      Tests&nbsp;
+      %img{ :class => 'add', :src => '/image/add.png' }
+      %img{ :class => 'remove hide', :src => '/image/remove.png' }
+
+%textarea.hide#tests_form_template
+  .dialog
+    %form{ :action => '/tests', :method => 'post' }
+      .span-2
+        %label{ :for => 'test_name' } Name
+      .span-5
+        %input{ :id => 'test_name', :name => 'name', :type => 'text' }
+      .clear
+      .submit
+        %input{ :type => 'submit', :value => 'Submit' }
+        %input{ :class => 'cancel', :type => 'submit', :value => 'Cancel' }
+
+%textarea.hide#tests_form_variant_template
+  .span-2
+    %label Variant
+  .span-5
+    %input{ :class => 'variants', :name => 'variants[]', :type => 'text' }

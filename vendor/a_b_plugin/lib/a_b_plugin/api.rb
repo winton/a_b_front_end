@@ -36,7 +36,7 @@ class ABPlugin
       return unless Config.token && Config.url
       base_uri Config.url
       post('/users.json', :query => compress(
-        :token => attributes.delete(:token) || Config.token,
+        :token => Config.token,
         :user => attributes
       ))
     end

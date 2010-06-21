@@ -9,68 +9,83 @@ window.Dashboard = function(sites) {
 			var id = filter.attr('id');
 
 			removeSelectablesWithForms();
-
-			var form = $('<form/>').append(
-				$('<input/>').attr({
-					name: 'name',
-					type: 'text'
-				})
-			);
 			
-			var div = $('<div/>')
-				.addClass('selectable')
-				.addClass('new')
-				.append(form);
-			
-			filter.append(div);
-			div.click();
-			addLastClassToSelectables();
-
-			$('input', form).select();
-			
-			form.submit(function() {
-				var name = $('input', this).val();
-				var post, site;
+			if (id != 'tests') {
+				var form = $('<form/>').append(
+					$('<input/>').attr({
+						name: 'name',
+						type: 'text'
+					})
+				);
 				
-				if (id == 'envs' || id == 'categories') {
-					site = byName(sites, $('#sites .selected').text());
-					post = { name: name, site_id: site.id };
-					site[id] = site[id] || [];
-					site[id].push(post);
-				} else {
-					post = { name: name };
-					sites.push(post);
-					post = $.extend({ include: [ 'envs', 'categories' ] }, post);
-				}
-				
-				var selectable = createSelectable(name);
-				$(this).parents('.selectable').replaceWith(selectable);
+				var div = $('<div/>')
+					.addClass('selectable')
+					.addClass('new')
+					.append(form);
+			
+				filter.append(div);
+				div.click();
 				addLastClassToSelectables();
-				selectable.click();
 				
-				queue.queue(function() {
-					$.post(
-						'/' + id + '.json',
-						post,
-						function(response) {
-							var modified = $.map(site ? site[id] : sites, function(item) {
-								if (item.name == name)
-									return response;
+				$('input', form).select();
+
+				form.submit(function() {
+					var name = $('input', this).val();
+					var post, site;
+
+					if (id == 'envs' || id == 'categories') {
+						site = byName(sites, $('#sites .selected').text());
+						post = { name: name, site_id: site.id };
+						site[id] = site[id] || [];
+						site[id].push(post);
+					} else {
+						post = { name: name };
+						sites.push(post);
+						post = $.extend({ include: [ 'envs', 'categories' ] }, post);
+					}
+
+					var selectable = createSelectable(name);
+					$(this).parents('.selectable').replaceWith(selectable);
+					addLastClassToSelectables();
+					selectable.click();
+
+					queue.queue(function() {
+						$.post(
+							'/' + id + '.json',
+							post,
+							function(response) {
+								var modified = $.map(site ? site[id] : sites, function(item) {
+									if (item.name == name)
+										return response;
+									else
+										return item;
+								});
+								if (site)
+									site[id] = modified;
 								else
-									return item;
-							});
-							if (site)
-								site[id] = modified;
-							else
-								sites = modified;
-							queue.dequeue();
-						},
-						'json'
-					);
+									sites = modified;
+								queue.dequeue();
+							},
+							'json'
+						);
+					});
+
+					return false;
 				});
-				
-				return false;
-			});
+			} else {
+				$('#tests').append($('#tests_form_template').val());
+				var dialog = $('#tests .dialog');
+				$('.submit', dialog).before($('#tests_form_variant_template').val());
+				$('input:first', dialog).focus();
+				$('.cancel', dialog).click(function() {
+					dialog.remove();
+				});
+			}
+		});
+		
+		$('#tests .variants').live('focus', function() {
+			if ($('#tests .variants[value=]').length < 2)
+				$('#tests .dialog .submit').before($('#tests_form_variant_template').val());
 		});
 
 		$('.selectable:not(.new)').live('click', function() {
@@ -89,12 +104,14 @@ window.Dashboard = function(sites) {
 				$('.remove', filter).removeClass('hide');
 				target.removeClass('hide');
 				
-				if (target_id && site[target_id]) {
+				if (target_id != 'tests' && target_id && site[target_id]) {
 					target.children('.selectable').remove();
 					$.each(site[target_id], function(i, item) {
 						target.append(createSelectable(item.name));
 					});
 					addLastClassToSelectables();
+				} else {
+					// tests display logic
 				}
 			} else {
 				$('.remove', filter).addClass('hide');
@@ -102,6 +119,9 @@ window.Dashboard = function(sites) {
 		});
 		
 		$('.remove').live('click', function() {
+			if (!confirm('Are you sure?'))
+				return;
+			
 			var filter = $(this).parents('.filter');
 			var id = filter.attr('id');
 			var selected = $('.selectable.selected', filter);

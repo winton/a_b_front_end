@@ -1,11 +1,13 @@
 body { font-size: 100%; }
 .error, .notice, .success { margin-top: 2.5em; text-align: center; }
 
+.container { margin: 2.5em auto; }
+
 .dialog { border: 2px solid #CFCFCF; }
 .dialog, .nav .selected { background: #EFEFEF; }
 .dialog form { font-size: 13px; }
 
-.top { overflow: auto; margin-top: 2.5em; }
+.top { overflow: auto; }
 .top .logo { font-size: 50px; font-weight: bold; margin-top: -0.35em; }
 .top .dialog { overflow: auto; position: relative; top: -2px; z-index: 1; }
 .top .dialog form { margin: 5px 0; }
