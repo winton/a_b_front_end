@@ -73,18 +73,51 @@ window.Dashboard = function(sites) {
 					return false;
 				});
 			} else {
+				$('#tests .dialog').remove();
 				$('#tests').append($('#tests_form_template').val());
+				
 				var dialog = $('#tests .dialog');
+				
 				$('.submit', dialog).before($('#tests_form_variant_template').val());
 				$('input:first', dialog).focus();
+				
 				$('.cancel', dialog).click(function() {
 					dialog.remove();
+					return false;
+				});
+				
+				$('form', dialog).submit(function() {
+					var form = $(this);
+					var inputs = $('.submit input', form);
+					$(inputs[0]).attr({
+						'disabled': true,
+						'value': 'One moment...'
+					});
+					$(inputs[1]).remove();
+					
+					var category = $('#categories .selected').text();
+					var site = $('#sites .selected').text();
+					var data = form.serialize() + '&category=' + category;
+					
+					queue.queue(function() {
+						$.post(
+							'/tests.json',
+							data,
+							function(response) {
+								category = byName(byName(sites, site).categories, category);
+								category.tests.push(response);
+								queue.dequeue();
+							},
+							'json'
+						);
+					});
+					return false;
 				});
 			}
 		});
 		
-		$('#tests .variants').live('focus', function() {
-			if ($('#tests .variants[value=]').length < 2)
+		$('#tests .variants').live('keyup', function() {
+			if ($('#tests .variants[value=]').length < 1)
 				$('#tests .dialog .submit').before($('#tests_form_variant_template').val());
 		});
 
@@ -111,7 +144,7 @@ window.Dashboard = function(sites) {
 					});
 					addLastClassToSelectables();
 				} else {
-					// tests display logic
+					$('.dialog', target).remove();
 				}
 			} else {
 				$('.remove', filter).addClass('hide');

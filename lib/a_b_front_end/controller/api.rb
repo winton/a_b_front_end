@@ -45,4 +45,23 @@ Application.class_eval do
       :token => current_user.single_access_token
     ).to_json
   end
+  
+  post '/tests.json' do
+    ABPlugin::API.create_test(
+      :category => params[:category],
+      :include => params[:include],
+      :name => params[:name],
+      :only => params[:only],
+      :token => current_user.single_access_token,
+      :variants => params[:variants]
+    ).to_json
+  end
+  
+  delete '/tests.json' do
+    ABPlugin::API.delete_test(
+      :category => params[:category],
+      :name => params[:name],
+      :token => current_user.single_access_token
+    ).to_json
+  end
 end

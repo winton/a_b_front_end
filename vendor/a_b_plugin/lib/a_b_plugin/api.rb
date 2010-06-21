@@ -32,6 +32,17 @@ class ABPlugin
       ))
     end
     
+    def self.create_test(attributes={})
+      return unless Config.token && Config.url
+      base_uri Config.url
+      post('/tests.json', :query => compress(
+        :include => attributes.delete(:include),
+        :only => attributes.delete(:only),
+        :token => attributes.delete(:token) || Config.token,
+        :test => attributes
+      ))
+    end
+    
     def self.create_user(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
@@ -60,6 +71,15 @@ class ABPlugin
     end
     
     def self.delete_site(attributes={})
+      return unless Config.token && Config.url
+      base_uri Config.url
+      delete('/sites.json', :query => compress(
+        :token => attributes.delete(:token) || Config.token,
+        :site => attributes
+      ))
+    end
+    
+    def self.delete_test(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
       delete('/sites.json', :query => compress(
