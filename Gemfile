@@ -5,6 +5,7 @@ v = {
   :bundler => '=1.0.0.beta.5',
   :cucumber => '=0.6.2',
   :haml => '=2.2.17',
+  :httparty => '=0.5.2',
   :lilypad => '=0.3.0',
   :rack_flash => '=0.1.1',
   :rack_test => '=0.5.3',
@@ -36,6 +37,7 @@ end
 group :lib do
   gem 'active_wrapper', v[:active_wrapper], :require => %w(active_wrapper)
   gem 'haml', v[:haml], :require => %w(haml sass)
+  gem 'httparty', v[:httparty], :require => %w(httparty)
   gem 'lilypad', v[:lilypad], :require => %w(lilypad)
   gem 'rack-flash', v[:rack_flash], :require => %w(rack-flash)
   gem 'sinatra', v[:sinatra], :require => %w(sinatra/base)
