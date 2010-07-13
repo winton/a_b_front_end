@@ -1,3 +1,7 @@
 #!/usr/bin/env ruby
 
-exec "irb -r #{File.expand_path("#{File.dirname(__FILE__)}/../lib/a_b_front_end/boot/console")}"
+require 'rubygems'
+require 'bundler'
+
+lib = File.expand_path(File.dirname(__FILE__) + "/../lib/a_b_front_end")
+exec "irb -r #{lib}/boot/console"

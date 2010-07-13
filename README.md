@@ -1,4 +1,4 @@
-GemTemplate
+ABFrontEnd
 ===========
 
 A gem template for new projects.
