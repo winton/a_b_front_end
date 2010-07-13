@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
 v = {
-  :active_wrapper => '=0.2.7',
-  :bundler => '=1.0.0.beta.2',
+  :active_wrapper => '=0.3.0',
+  :bundler => '=1.0.0.beta.5',
   :cucumber => '=0.6.2',
   :haml => '=2.2.17',
   :lilypad => '=0.3.0',
