@@ -6,7 +6,9 @@ v = {
   :cucumber => '=0.6.2',
   :haml => '=2.2.17',
   :httparty => '=0.5.2',
+  :json => '=1.4.3',
   :lilypad => '=0.3.0',
+  :mysql => '=2.8.1',
   :rack_flash => '=0.1.1',
   :rack_test => '=0.5.3',
   :rake => '=0.8.7',
@@ -23,7 +25,9 @@ group :gemspec do
   gem 'active_wrapper', v[:active_wrapper], :require => %w(active_wrapper)
   gem 'bundler', v[:bundler]
   gem 'haml', v[:haml]
+  gem 'json', v[:json]
   gem 'lilypad', v[:lilypad]
+  gem 'mysql', v[:mysql]
   gem 'rack-flash', v[:rack_flash]
   gem 'sinatra', v[:sinatra]
 end
@@ -35,6 +39,8 @@ group :gemspec_dev do
 end
 
 group :lib do
+  gem 'json', v[:json], :require => %w(json)
+  gem 'mysql', v[:mysql]
   gem 'active_wrapper', v[:active_wrapper], :require => %w(active_wrapper)
   gem 'haml', v[:haml], :require => %w(haml sass)
   gem 'httparty', v[:httparty], :require => %w(httparty)

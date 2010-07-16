@@ -105,6 +105,7 @@ window.Dashboard = function(sites) {
 							data,
 							function(response) {
 								category = byName(byName(sites, site).categories, category);
+								category.tests = category.tests || [];
 								category.tests.push(response);
 								queue.dequeue();
 							},
@@ -160,7 +161,7 @@ window.Dashboard = function(sites) {
 			var selected = $('.selectable.selected', filter);
 			var name = selected.text();
 			
-			$(this).hide();
+			$(this).addClass('hide');
 			hideNextAll(filter);
 			selected.remove();
 			

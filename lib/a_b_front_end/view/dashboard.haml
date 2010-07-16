@@ -1,4 +1,5 @@
-- @css = @js = %w(dashboard)
+- @css = %w(dashboard)
+- @js = %w(templ dashboard)
 /.success This is a test!
 .dashboard
   .span-12.filter#sites
@@ -41,3 +42,26 @@
     %label Variant
   .span-5
     %input{ :class => 'variants', :name => 'variants[]', :type => 'text' }
+
+%textarea.hide#test_template
+  %table
+    %tr
+      %th <%= test.name %>
+      %th Visits
+      %th Conversions
+      %th Suggested Visits
+      %th Confidence
+      %th Status
+    <% $.each(test.variants, function(i, variant) { %>
+    <% $.each(variant.pretty, function(e, item) { %>
+    <% if (e == env) { %>
+    %tr
+      %td <%= item.name %>
+      %td <%= item.visits_with_commas %>
+      %td <%= item.pretty_conversion_rate %>
+      %td <%= item.suggested_visits_with_commas %>
+      %td <%= item.confidence %>
+      %td ?
+    <% } %>
+    <% }); %>
+    <% }); %>
