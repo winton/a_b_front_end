@@ -19,7 +19,7 @@ end
 
 if %w(app_master app util solo).include?(node[:instance_role])
   # gems for app
-  sudo "bundle install"
+  sudo "cd #{release_path} && bundle install"
 
   # symlinks
   do_symlinks(latest_release)
