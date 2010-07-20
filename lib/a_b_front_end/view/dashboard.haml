@@ -1,5 +1,5 @@
 - @css = %w(dashboard)
-- @js = %w(templ dashboard)
+- @js = %w(tmpl dashboard)
 /.success This is a test!
 .dashboard
   .span-12.filter#sites
@@ -46,22 +46,33 @@
 %textarea.hide#test_template
   %table
     %tr
-      %th <%= test.name %>
+      %th.first <%= test.name %>
       %th Visits
       %th Conversions
       %th Suggested Visits
       %th Confidence
       %th Status
     <% $.each(test.variants, function(i, variant) { %>
-    <% $.each(variant.for_dashboard, function(e, item) { %>
-    <% if (e == env) { %>
-    %tr
-      %td <%= item.name %>
-      %td <%= item.visits_with_commas %>
-      %td <%= item.pretty_conversion_rate %>
-      %td <%= item.suggested_visits_with_commas %>
+    %tr{ :class => '<% if (i % 2 == 0) { %>odd<% } %>'}
+      %td <%= variant.name %>
+      <%
+      var found = false;
+      $.each(variant.for_dashboard, function(e, item) {
+      if (e == env) {
+      found = true; %>
+      %td <%= item.visits %>
+      %td <%= item.conversion_rate %>
+      %td <%= item.suggested_visits %>
       %td <%= item.confidence %>
       %td ?
-    <% } %>
-    <% }); %>
+      <%
+      }
+      });
+      if (!found) { %>
+      %td -
+      %td -
+      %td -
+      %td -
+      %td -
+      <% } %>
     <% }); %>

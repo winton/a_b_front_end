@@ -138,18 +138,30 @@ window.Dashboard = function(sites) {
 				$('.remove', filter).removeClass('hide');
 				target.removeClass('hide');
 				
-				if (target_id != 'tests' && target_id && site[target_id]) {
-					target.children('.selectable').remove();
-					$.each(site[target_id], function(i, item) {
-						target.append(createSelectable(item.name));
-					});
-					addLastClassToSelectables();
+				if (target_id != 'tests') {
+					if (target_id && site[target_id]) {
+						target.children('.selectable').remove();
+						
+						$.each(site[target_id], function(i, item) {
+							target.append(createSelectable(item.name));
+						});
+						
+						addLastClassToSelectables();
+					}
 				} else {
+					var category = byName(site.categories, $('#categories .selected').text());
+					var env = $('#envs .selected').text();
+					
 					$('.dialog', target).remove();
+
+					$.each(category.tests, function(i, test) {
+						$('#tests').append(
+							$('#test_template').tmpl({ test: test, env: env })
+						);
+					});
 				}
-			} else {
+			} else
 				$('.remove', filter).addClass('hide');
-			}
 		});
 		
 		$('.remove').live('click', function() {

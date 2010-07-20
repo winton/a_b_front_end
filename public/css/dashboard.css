@@ -11,25 +11,32 @@
 
 .dashboard #tests table {
 	border-width: 2px;
-	border-spacing: 5px;
+	border-spacing: 0px;
 	border-style: solid;
 	border-color: rgb(207, 207, 207);
 	border-collapse: separate;
 	background-color: rgb(239, 239, 239);
+	margin-top: 15px;
+}
+
+.dashboard #tests table th.first {
+	color: #000;
 }
 
 .dashboard #tests table th {
 	border-width: 1px;
-	padding: 5px;
+	padding: 10px;
 	border-style: none;
 	border-color: gray;
 	background-color: rgb(239, 239, 239);
+	color: #8F8F8F;
 }
 
-.dashboard #tests table.sample td {
-	border-width: 1px;
-	padding: 5px;
+.dashboard #tests table tr.odd {
+	background-color: #fff;
+}
+
+.dashboard #tests table td {
+	padding: 10px;
 	border-style: none;
-	border-color: gray;
-	background-color: rgb(239, 239, 239);
 }
