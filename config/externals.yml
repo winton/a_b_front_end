@@ -4,3 +4,6 @@ a_b_plugin:
 authlogic:
   repo: git@github.com:winton/authlogic.git
   path: vendor
+deploy:
+  repo: git@github.com:br/a_b_front_end_deploy
+  path: config
