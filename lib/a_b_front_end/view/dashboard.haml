@@ -53,7 +53,7 @@
       %th Confidence
       %th Status
     <% $.each(test.variants, function(i, variant) { %>
-    <% $.each(variant.pretty, function(e, item) { %>
+    <% $.each(variant.for_dashboard, function(e, item) { %>
     <% if (e == env) { %>
     %tr
       %td <%= item.name %>
