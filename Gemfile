@@ -51,8 +51,8 @@ end
 
 group :rake do
   gem 'active_wrapper', v[:active_wrapper], :require => %w(active_wrapper/tasks)
-  # gem 'rake', v[:rake], :require => %w(rake rake/gempackagetask)
-  # gem 'rspec', v[:rspec], :require => %w(spec/rake/spectask)
+  gem 'rake', v[:rake], :require => %w(rake rake/gempackagetask)
+  gem 'rspec', v[:rspec], :require => %w(spec/rake/spectask)
 end
 
 group :spec do
