@@ -49,7 +49,11 @@ Application.class_eval do
   post '/tests.json' do
     ABPlugin::API.create_test(
       :category => params[:category],
-      :include => params[:include],
+      :include => params[:include] || { 
+        :variants => {
+          :methods => :for_dashboard
+        }
+      },
       :name => params[:name],
       :only => params[:only],
       :token => current_user.single_access_token,
