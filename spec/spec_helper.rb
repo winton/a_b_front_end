@@ -1,14 +1,13 @@
-require 'rubygems'
-require 'bundler'
+$root = File.expand_path('../../', __FILE__)
+require "#{$root}/lib/a_b_front_end/gems"
 
-Bundler.require(:spec)
+ABFrontEnd::Gems.require(:spec)
+
+require 'rack/test'
 
 Spec::Runner.configure do |config|
 end
 
-SPEC = File.dirname(__FILE__)
-
-require "#{Bundler.root}/lib/a_b_front_end"
 require 'pp'
 
 # For use with rspec textmate bundle
