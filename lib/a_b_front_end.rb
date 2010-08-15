@@ -1,12 +1,10 @@
 require File.dirname(__FILE__) + '/a_b_front_end/gems'
 
+ABFrontEnd::Gems.require(:lib)
+
 $:.unshift File.expand_path(
   File.dirname(__FILE__) + '/../vendor/authlogic/lib'
 )
-
-require 'authlogic'
-
-ABFrontEnd::Gems.require(:lib)
 
 $:.unshift File.dirname(__FILE__) + '/a_b_front_end'
 
@@ -22,4 +20,5 @@ require 'boot/haml'
 require 'boot/lilypad'
 require 'boot/controller'
 require 'boot/helper'
+require 'authlogic'
 require 'boot/model'
