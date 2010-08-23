@@ -13,6 +13,7 @@ class ABPlugin
     
     def configure_api
       if @data
+        ABPlugin::Config.categories @data['categories']
         ABPlugin::Config.site @data['site']
         ABPlugin::Config.token @data['token']
         ABPlugin::Config.url @data['url']

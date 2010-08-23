@@ -31,7 +31,6 @@ class ABPlugin
   class <<self
     
     attr_accessor :cached_at
-    attr_accessor :categories
     attr_accessor :instance
     
     def load_yaml?
@@ -49,15 +48,13 @@ class ABPlugin
       yaml = Yaml.new(Config.yaml)
       yaml.configure_api
       
-      @categories = yaml['categories']
-      
-      unless @categories
-        @cached_at = Time.now - 9 * 60 # Try again in 1 minute
+      unless Config.categories
+        @cached_at = Time.now - 1 * 60 # Try again in 1 minute
       end
     end
     
     def reset
-      $cookies = @cached_at = @categories = @instance = nil
+      $cookies = @cached_at = @instance = nil
       Config.reset
     end
     

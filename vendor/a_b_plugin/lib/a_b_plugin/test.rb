@@ -79,7 +79,7 @@ class ABPlugin
     private
     
     def category(name)
-      ABPlugin.categories.detect do |c|
+      ABPlugin::Config.categories.detect do |c|
         c['name'] == name ||
         symbolize_name(c['name']) == name
       end

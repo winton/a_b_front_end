@@ -7,13 +7,18 @@ class ABPlugin
         @binary
       end
       
+      def categories(categories=nil)
+        @categories = categories unless categories.nil?
+        @categories
+      end
+      
       def env(env=nil)
         @env = env unless env.nil?
         @env || ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'development'
       end
       
       def reset
-        @binary = @env = @root = @site = @url = @token = @yaml = nil
+        @binary = @categories = @env = @root = @site = @url = @token = @yaml = nil
       end
       
       def root(root=nil)

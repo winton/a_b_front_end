@@ -17,10 +17,10 @@ describe ABPlugin do
     it "should only assign cached_at" do
       ABPlugin.new
       
-      ABPlugin.cached_at.to_s.should == (Time.now - 9 * 60).to_s
+      ABPlugin.cached_at.to_s.should == (Time.now - 1 * 60).to_s
       ABPlugin.instance.should == nil
-      ABPlugin.categories.should == nil
       
+      ABPlugin::Config.categories.should == nil
       ABPlugin::Config.site.should == nil
       ABPlugin::Config.token.should == nil
       ABPlugin::Config.url.should == nil
@@ -43,10 +43,10 @@ describe ABPlugin do
     it "should only assign cached_at" do
       ABPlugin.new
 
-      ABPlugin.cached_at.to_s.should == (Time.now - 9 * 60).to_s
+      ABPlugin.cached_at.to_s.should == (Time.now - 1 * 60).to_s
       ABPlugin.instance.should == nil
-      ABPlugin.categories.should == nil
       
+      ABPlugin::Config.categories.should == nil
       ABPlugin::Config.site.should == nil
       ABPlugin::Config.token.should == nil
       ABPlugin::Config.url.should == nil
@@ -64,10 +64,10 @@ describe ABPlugin do
     it "should only assign cached_at, token, url" do
       ABPlugin.new
       
-      ABPlugin.cached_at.to_s.should == (Time.now - 9 * 60).to_s
+      ABPlugin.cached_at.to_s.should == (Time.now - 1 * 60).to_s
       ABPlugin.instance.should == nil
-      ABPlugin.categories.should == nil
       
+      ABPlugin::Config.categories.should == nil
       ABPlugin::Config.site.should == 'site'
       ABPlugin::Config.token.should == 'token'
       ABPlugin::Config.url.should == 'url'
@@ -88,8 +88,8 @@ describe ABPlugin do
       
       ABPlugin.cached_at.to_s.should == Time.now.to_s
       ABPlugin.instance.should == nil
-      ABPlugin.categories.should == @site['categories']
       
+      ABPlugin::Config.categories.should == @site['categories']
       ABPlugin::Config.site.should == nil
       ABPlugin::Config.token.should == nil
       ABPlugin::Config.url.should == nil
@@ -110,8 +110,8 @@ describe ABPlugin do
       
       ABPlugin.cached_at.to_s.should == Time.now.to_s
       ABPlugin.instance.should == nil
-      ABPlugin.categories.should == @site['categories']
       
+      ABPlugin::Config.categories.should == @site['categories']
       ABPlugin::Config.site.should == 'site'
       ABPlugin::Config.token.should == 'token'
       ABPlugin::Config.url.should == 'url'
