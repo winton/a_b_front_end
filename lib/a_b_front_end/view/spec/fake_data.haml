@@ -5,7 +5,7 @@
     = js 'jquery'
     = js 'a_b'
     = js 'qunit'
-    = js 'spec/js'
+    = js 'spec/fake_data'
     %script{ :type => 'text/javascript' }
       :erb
         reset_a_b();
@@ -13,7 +13,7 @@
           <%= a_b %>
         }
   %body
-    %h1{ :id => "qunit-header" } a_b.js
+    %h1{ :id => "qunit-header" } a_b fake data
     %h2{ :id => "qunit-banner" }
     %h2{ :id => "qunit-userAgent" }
     %ol{ :id => "qunit-tests" }
