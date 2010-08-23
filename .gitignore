@@ -1,6 +1,7 @@
 .DS_Store
 *.gem
 *.log
+config/a_b.yml
 config/database.yml
 config/deploy.rb
 config/mail.yml
