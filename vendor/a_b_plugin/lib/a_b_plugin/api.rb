@@ -88,6 +88,12 @@ class ABPlugin
       ))
     end
     
+    def self.spec_js_setup
+      return unless Config.token && Config.url
+      base_uri Config.url
+      get '/spec/js/setup.json'
+    end
+    
     def self.sites(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url

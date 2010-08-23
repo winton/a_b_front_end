@@ -1,10 +1,10 @@
 Application.class_eval do
   
-  get '/spec' do
-    if current_user && current_user.admin?
-      haml :spec
-    else
-      nil
+  if environment == :development
+    
+    get '/spec/js' do
+      ABPlugin::API.spec_js_setup
+      haml :'spec/js', :layout => false
     end
   end
 end
