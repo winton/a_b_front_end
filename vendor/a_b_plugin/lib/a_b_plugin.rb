@@ -58,15 +58,29 @@ class ABPlugin
       Config.reset
     end
     
+    def site(name)
+      API.sites(
+        :include => {
+          :categories => {
+            :include => {
+              :tests => {
+                :include => {
+                  :variants => true
+                }
+              }
+            }
+          }
+        },
+        :only => [ :id, :category_id, :name, :tests, :variants ],
+        :name => name
+      )
+    end
+    
     def write_yaml
       yaml = Yaml.new(Config.yaml)
       yaml.configure_api
       if Config.site
-        site = API.sites(
-          :include => { :categories => { :tests => :variants } },
-          :only => [ :id, :category_id, :name, :tests, :variants ],
-          :name => Config.site
-        )
+        site = self.site(Config.site)
         if site
           yaml.data['categories'] = site['categories']
           File.open(Config.yaml, 'w') do |f|

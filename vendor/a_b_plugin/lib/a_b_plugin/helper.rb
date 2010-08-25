@@ -13,7 +13,6 @@ class ABPlugin
         "a_b_setup(#{{
           :categories => Config.categories,
           :env => Config.env,
-          :site => Config.site,
           :url => Config.url
         }.to_json});"
       end
