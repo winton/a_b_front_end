@@ -2,10 +2,26 @@ Application.class_eval do
   
   if environment == :development
     
-    get '/spec/js' do
-      site = ABPlugin::Config.site
-      categories = ABPlugin::Config.categories
+    get '/spec/fake_data' do
+      if request.cookies['site_name'] && request.cookies['test_name']
+        categories = ABPlugin::Config.categories
+        site = ABPlugin.site request.cookies['site_name']
+        if site != false
+          @test = request.cookies['test_name']
+          ABPlugin::Config.categories site['categories']
+        end
+        response.set_cookie('site_name', :value => nil, :path => '/')
+        response.set_cookie('test_name', :value => nil, :path => '/')
+      end
       
+      output = haml :'spec/fake_data', :layout => false
+      ABPlugin::Config.categories categories
+      
+      output
+    end
+    
+    get '/spec/js' do
+      categories = ABPlugin::Config.categories
       ABPlugin::Config.categories [
         {
           :name => 'Category',
@@ -24,11 +40,10 @@ Application.class_eval do
       ]
       
       ABPlugin::API.spec_js_setup
-      
-      haml :'spec/js', :layout => false
-      
-      ABPlugin::Config.site site
+      output = haml :'spec/js', :layout => false
       ABPlugin::Config.categories categories
+      
+      output
     end
   end
 end

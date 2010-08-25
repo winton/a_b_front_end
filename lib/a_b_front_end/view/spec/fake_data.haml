@@ -8,10 +8,13 @@
     = js 'spec/fake_data'
     %script{ :type => 'text/javascript' }
       :erb
+        window.test = <%= @test.to_json %>;
+        <% if @test %>
         reset_a_b();
         function reset_a_b() {
           <%= a_b %>
         }
+        <% end %>
   %body
     %h1{ :id => "qunit-header" } a_b fake data
     %h2{ :id => "qunit-banner" }
