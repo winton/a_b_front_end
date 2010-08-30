@@ -1,5 +1,3 @@
-window.testing = true;
-
 function wait(msg, fn) {
 	var alert = $('<div id="alert"/>')
 		.html(msg + ":&nbsp;&nbsp;")
@@ -12,7 +10,14 @@ function wait(msg, fn) {
 			padding: '8px'
 		})
 		.prependTo('body')
-		.append('<input type="text" />')
+		.append(
+			$('<input type="text" />')
+				.keyup(function(e) {
+					if (e.keyCode == 13)
+						submit();
+				})
+				.focus()
+		)
 		.append(
 			$('<a href="#"/>')
 				.html('Continue')
@@ -20,27 +25,33 @@ function wait(msg, fn) {
 					'color': 'yellow',
 					'margin-left': 10
 				})
-				.click(function() {
-					fn($('input', alert).val());
-					alert.remove();
-					return false;
-				})
+				.click(submit)
 		);
+	function submit() {
+		fn($('input', alert).val());
+		alert.remove();
+		return false;
+	}
 }
 
 module('fake data');
 
 test('should create some fake data', function() {
-	stop();
-	if (window.test) {
-		// do tests
+	if (window.category && window.test) {
+		start();
+		expect(2);
+		equals(typeof a_b(window.category, window.test).visit(), 'string');
+		equals(typeof a_b(window.category, window.test).convert(), 'string');
 	} else {
 		stop();
 		wait("Enter site name", function(site_name) {
-			wait("Enter test name", function(test_name) {
-				A_B.Cookies.set('site_name', site_name);
-				A_B.Cookies.set('test_name', test_name);
-				window.location.reload();
+			wait("Enter category name", function(category_name) {
+				wait("Enter test name", function(test_name) {
+					A_B.Cookies.set('category_name', category_name);
+					A_B.Cookies.set('site_name', site_name);
+					A_B.Cookies.set('test_name', test_name);
+					window.location.reload();
+				});
 			});
 		});
 	}

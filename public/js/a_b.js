@@ -371,6 +371,8 @@ window.A_B = new function() {
 	this.Datastore = Datastore;
 	this.Test = Test;
 	
+	this.categories = function() { return categories; };
+	
 	// Global methods
 	
 	window.a_b = function(c, t, e) {

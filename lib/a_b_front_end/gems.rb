@@ -23,7 +23,7 @@ unless defined?(ABFrontEnd::Gems)
         :gemspec => [ :active_wrapper, :haml, :lilypad, :'rack-flash', :sinatra ],
         :gemspec_dev => [ :cucumber, :rspec, :'rack-test' ],
         :lib => [ :active_wrapper, :haml, :lilypad, :'rack-flash', :sinatra ],
-        :rake => [ :rake, :rspec ],
+        :rake => [ :active_wrapper, :rake, :rspec ],
         :spec => [ :'rack-test', :rspec ]
       }
       

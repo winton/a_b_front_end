@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/lib/a_b_front_end/gems'
 ABFrontEnd::Gems.require(:rake)
 
 require 'rake'
+require 'active_wrapper/tasks'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 

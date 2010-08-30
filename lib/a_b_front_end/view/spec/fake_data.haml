@@ -8,6 +8,7 @@
     = js 'spec/fake_data'
     %script{ :type => 'text/javascript' }
       :erb
+        window.category = <%= @category.to_json %>;
         window.test = <%= @test.to_json %>;
         <% if @test %>
         reset_a_b();

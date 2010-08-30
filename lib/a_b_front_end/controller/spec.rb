@@ -3,13 +3,18 @@ Application.class_eval do
   if environment == :development
     
     get '/spec/fake_data' do
-      if request.cookies['site_name'] && request.cookies['test_name']
+      response.set_cookie('a_b', :value => nil, :path => '/')
+      response.set_cookie('a_b_i', :value => nil, :path => '/')
+      
+      if request.cookies['category_name'] && request.cookies['site_name'] && request.cookies['test_name']
         categories = ABPlugin::Config.categories
         site = ABPlugin.site request.cookies['site_name']
         if site != false
+          @category = request.cookies['category_name']
           @test = request.cookies['test_name']
           ABPlugin::Config.categories site['categories']
         end
+        response.set_cookie('category_name', :value => nil, :path => '/')
         response.set_cookie('site_name', :value => nil, :path => '/')
         response.set_cookie('test_name', :value => nil, :path => '/')
       end
