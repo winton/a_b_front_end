@@ -78,7 +78,9 @@ window.Dashboard = function(sites) {
 				
 				var dialog = $('#tests .dialog');
 				
-				$('.submit', dialog).before($('#tests_form_variant_template').val());
+				$('.submit', dialog).before(
+					$('#tests_form_variant_template').tmpl({ control: true })
+				);
 				$('input:first', dialog).focus();
 				
 				$('.cancel', dialog).click(function() {
@@ -122,7 +124,37 @@ window.Dashboard = function(sites) {
 		
 		$('#tests .variants').live('keyup', function() {
 			if ($('#tests .variants[value=]').length < 1)
-				$('#tests .dialog .submit').before($('#tests_form_variant_template').val());
+				$('#tests .dialog .submit').before(
+					$('#tests_form_variant_template').tmpl()
+				);
+		});
+		
+		$('#tests .edit a').live('click', function() {
+			
+		});
+		
+		$('#tests .remove a').live('click', function() {
+			if (!confirm('Are you sure?'))
+				return;
+			
+			var site = byName(sites, $('#sites .selected').text());
+			var category = byName(site.categories, $('#categories .selected').text());
+			var test = $(this).closest('table');
+			var id = test.attr('id').match(/\d+/)[0];
+			
+			test.remove();
+			category.tests = $.grep(category.tests, function(item) {
+				return (item.id != id);
+			});
+			
+			queue.queue(function() {
+				$.post(
+					'/tests.json',
+					{ '_method': 'DELETE', id: id },
+					function() { queue.dequeue(); },
+					'json'
+				);
+			});
 		});
 
 		$('.selectable:not(.new)').live('click', function() {
@@ -170,7 +202,7 @@ window.Dashboard = function(sites) {
 				$('.remove', filter).addClass('hide');
 		});
 		
-		$('.remove').live('click', function() {
+		$('.header > .remove').live('click', function() {
 			if (!confirm('Are you sure?'))
 				return;
 			
@@ -235,9 +267,17 @@ window.Dashboard = function(sites) {
 		$('.selectable.new').remove();
 	}
 	
+	function byId(records, id) {
+		return byProperty(records, 'id', id);
+	}
+	
 	function byName(records, name) {
+		return byProperty(records, 'name', name);
+	}
+	
+	function byProperty(records, property, value) {
 		return $.grep(records, function(item) {
-			return (item.name == name);
+			return (item[property] == value);
 		})[0];
 	}
 	

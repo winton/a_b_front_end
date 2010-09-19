@@ -16,7 +16,6 @@ function wait(msg, fn) {
 					if (e.keyCode == 13)
 						submit();
 				})
-				.focus()
 		)
 		.append(
 			$('<a href="#"/>')
@@ -27,6 +26,7 @@ function wait(msg, fn) {
 				})
 				.click(submit)
 		);
+	$('input[type=text]', alert).focus();
 	function submit() {
 		fn($('input', alert).val());
 		alert.remove();

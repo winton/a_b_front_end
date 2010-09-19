@@ -63,8 +63,7 @@ Application.class_eval do
   
   delete '/tests.json' do
     ABPlugin::API.delete_test(
-      :category => params[:category],
-      :name => params[:name],
+      :id => params[:id],
       :token => current_user.single_access_token
     ).to_json
   end

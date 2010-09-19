@@ -82,9 +82,9 @@ class ABPlugin
     def self.delete_test(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
-      delete('/sites.json', :query => compress(
+      delete('/tests.json', :query => compress(
         :token => attributes.delete(:token) || Config.token,
-        :site => attributes
+        :test => attributes
       ))
     end
     

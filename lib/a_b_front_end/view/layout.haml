@@ -16,13 +16,11 @@
           .logo a_b
         - if current_user
           .span-12.last
-            .span-3.nav
-              %a{ :href => '/' } Dashboard
-            .span-3.nav
-              %a{ :href => '/setup' } Setup
-            .span-3.nav
+            .span-4.nav.align-left
+              %a{ :href => '/get_started' } Get Started
+            .span-4.nav
               %a{ :href => '/account' } Account
-            .span-3.nav.last
+            .span-4.nav.last
               %a{ :href => '/sessions/destroy' } Log out
         - else
           .span-12.last

@@ -39,40 +39,66 @@
 
 %textarea.hide#tests_form_variant_template
   .span-2
-    %label Variant
+    %label
+      <% if (typeof control != "undefined") { %>
+      Control
+      <% } else { %>
+      Variant
+      <% } %>
   .span-5
     %input{ :class => 'variants', :name => 'variants[]', :type => 'text' }
 
 %textarea.hide#test_template
-  %table
+  %table{ :id => 'test_<%= test.id %>' }
     %tr
-      %th.first <%= test.name %>
+      %th.first
+        <%= test.name %>
       %th Visits
       %th Conversions
+      %th Conversion Rate
       %th Suggested Visits
       %th Confidence
-      %th Status
-    <% $.each(test.variants, function(i, variant) { %>
-    %tr{ :class => '<% if (i % 2 == 0) { %>odd<% } %>'}
-      %td <%= variant.name %>
+    <%
+    var odd;
+    $.each(test.variants, function(i, variant) {
+    odd = (i % 2 == 0); %>
+    %tr{ :class => '<% if (odd) { %>odd<% } %>'}
+      %td
+        <%= variant.name %>
+        <% if (i == 0) { %>
+        %span (control)
+        <% } %>
       <%
       var found = false;
       $.each(variant.for_dashboard, function(e, item) {
       if (e == env) {
       found = true; %>
       %td <%= item.visits %>
+      %td <%= item.conversions %>
       %td <%= item.conversion_rate %>
       %td <%= item.suggested_visits %>
       %td <%= item.confidence %>
-      %td ?
       <%
       }
       });
       if (!found) { %>
       %td 0
+      %td 0
       %td -
       %td -
-      %td -
-      %td ?
+      %td 0%
       <% } %>
     <% }); %>
+    %tr{ :class => '<% if (!odd) { %>odd<% } %>'}
+      %td{ :colspan => 6 }
+        %select.conditions
+          %option Conditions
+        .right
+          .edit
+            %a{ :href => '#' }
+              %img{ :src => '/image/edit.png' }
+              Edit
+          .remove
+            %a{ :href => '#' }
+              %img{ :src => '/image/remove.png' }
+              Delete

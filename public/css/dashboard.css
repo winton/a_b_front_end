@@ -1,13 +1,63 @@
-.dashboard .header img { cursor: pointer; margin-top: 2.5em; vertical-align: -2px; }
-.dashboard .selectable { background: #E5ECF9; border: 2px solid #C2D2EF; color: #000099; cursor: pointer; float: left; height: 40px; line-height: 40px; margin: 15px 15px 0 0; overflow: hidden; text-align: center; text-decoration: underline; width: 141px; }
-.dashboard .selectable.selected { background: #E6EFC2; border-color: #C6D880; color: #264409; text-decoration: none; }
-.dashboard .selectable.last { margin-right: 0; }
-.dashboard .selectable form { margin-top: -3px; }
-.dashboard .selectable input { margin: 0 auto; text-align: center; width: 90%; }
+.dashboard .nav {
+	text-align: right;
+}
 
-.dashboard #tests .dialog { margin-top: 15px; overflow: auto; padding: 5px 20px; }
-.dashboard #tests .dialog label { line-height: 27px; }
-.dashboard #tests .dialog .submit { float: right; margin-top: 4px; }
+.dashboard .header img {
+	cursor: pointer;
+	margin-top: 2.5em;
+	vertical-align: -2px;
+}
+
+.dashboard .selectable {
+	background: #E5ECF9;
+	border: 2px solid #C2D2EF;
+	color: #000099;
+	cursor: pointer;
+	float: left;
+	height: 40px;
+	line-height: 40px;
+	margin: 15px 15px 0 0;
+	overflow: hidden;
+	text-align: center;
+	text-decoration: underline;
+	width: 141px;
+}
+
+.dashboard .selectable.selected {
+	background: #E6EFC2;
+	border-color: #C6D880;
+	color: #264409;
+	text-decoration: none;
+}
+
+.dashboard .selectable.last {
+	margin-right: 0;
+}
+
+.dashboard .selectable form {
+	margin-top: -3px;
+}
+
+.dashboard .selectable input {
+	margin: 0 auto;
+	text-align: center;
+	width: 90%;
+}
+
+.dashboard #tests .dialog {
+	margin-top: 15px;
+	overflow: auto;
+	padding: 5px 20px;
+}
+
+.dashboard #tests .dialog label {
+	line-height: 27px;
+}
+
+.dashboard #tests .dialog .submit {
+	float: right;
+	margin-top: 4px;
+}
 
 .dashboard #tests table {
 	border-width: 2px;
@@ -19,8 +69,17 @@
 	margin-top: 15px;
 }
 
-.dashboard #tests table th.first {
-	color: #000;
+.dashboard #tests table a {
+	text-decoration: none;
+}
+
+.dashboard #tests table td {
+	padding: 10px;
+	border-style: none;
+}
+
+.dashboard #tests table td span {
+	color: #8F8F8F;
 }
 
 .dashboard #tests table th {
@@ -32,11 +91,40 @@
 	color: #8F8F8F;
 }
 
-.dashboard #tests table tr.odd {
-	background-color: #fff;
+.dashboard #tests table th.first {
+	color: #000;
 }
 
-.dashboard #tests table td {
-	padding: 10px;
-	border-style: none;
+.dashboard #tests table .conditions {
+	font-family: inherit;
+	font-size: 75%;
+	font-style: inherit;
+	margin: 0;
+}
+
+.dashboard #tests table .edit,
+.dashboard #tests table .remove {
+	float: left;
+	margin: 0px 20px;
+}
+
+.dashboard #tests table img {
+	margin-right: 3px;
+	vertical-align: -2px;
+}
+
+.dashboard #tests table .remove a {
+	color: #8a1f11;
+}
+
+.dashboard #tests table .remove a:focus, .dashboard #tests table .remove a:hover {
+	color: #000000;
+}
+
+.dashboard #tests table .right {
+	float: right;
+}
+
+.dashboard #tests table tr.odd {
+	background-color: #fff;
 }

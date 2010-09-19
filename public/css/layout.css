@@ -1,23 +1,99 @@
-body { font-size: 100%; }
-.error, .notice, .success { margin-top: 2.5em; text-align: center; }
+a {
+	font-weight: bold;
+}
 
-.container { margin: 2.5em auto; }
+body {
+	font-size: 100%;
+}
 
-.dialog { border: 2px solid #CFCFCF; }
-.dialog, .nav .selected { background: #EFEFEF; }
-.dialog form { font-size: 13px; }
+.container {
+	margin: 2.5em auto;
+}
 
-.top { overflow: auto; }
-.top .logo { font-size: 50px; font-weight: bold; margin-top: -0.35em; }
-.top .dialog { overflow: auto; position: relative; top: -2px; z-index: 1; }
-.top .dialog form { margin: 5px 0; }
-.top .dialog label { padding: 0 5px 0 24px; }
-.top .dialog label.confirm { padding: 0 5px 0 269px; }
-.top .dialog input { font-size: 12px; padding: .2em; }
-.top .dialog input.email { width: 157px; }
-.top .dialog input.password { width: 105px; }
-.top .dialog input.submit { float: right; margin: 5px 28px 10px; }
+.dialog {
+	border: 2px solid #CFCFCF;
+}
 
-.nav a.selected { border-top: 2px solid #CFCFCF; border-left: 2px solid #CFCFCF; border-right: 2px solid #CFCFCF; display: block; position: relative; z-index: 2; }
-.nav, .header { font-weight: bold; text-transform: uppercase; }
-.nav { cursor: pointer; line-height: 41px; text-align: center; }
+.dialog, .nav .selected {
+	background: #EFEFEF;
+}
+
+.dialog form {
+	font-size: 13px;
+}
+
+.error, .notice, .success {
+	margin-top: 2.5em;
+	text-align: center;
+}
+
+.header, .nav {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.nav {
+	cursor: pointer;
+	line-height: 41px;
+	text-align: center;
+}
+
+.nav.align-left {
+	text-align: left;
+}
+
+.nav a.selected {
+	border-top: 2px solid #CFCFCF;
+	border-left: 2px solid #CFCFCF;
+	border-right: 2px solid #CFCFCF;
+	display: block;
+	position: relative;
+	z-index: 2;
+}
+
+.top {
+	overflow: auto;
+}
+
+.top .dialog {
+	overflow: auto;
+	position: relative;
+	top: -2px;
+	z-index: 1;
+}
+
+.top .dialog form {
+	margin: 5px 0;
+}
+
+.top .dialog input {
+	font-size: 12px;
+	padding: .2em;
+}
+
+.top .dialog input.email {
+	width: 157px;
+}
+
+.top .dialog input.password {
+	width: 105px;
+}
+
+.top .dialog input.submit {
+	float: right;
+	margin: 5px 28px 10px;
+}
+
+.top .dialog label {
+	padding: 0 5px 0 24px;
+}
+
+.top .dialog label.confirm {
+	padding: 0 5px 0 269px;
+}
+
+.top .logo {
+	font-size: 50px;
+	font-weight: bold;
+	margin-top: -0.35em;
+}
