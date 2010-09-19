@@ -40,6 +40,7 @@ test('should create some fake data', function() {
 	if (window.category && window.test) {
 		start();
 		expect(2);
+		a_b({ 'Logged in': true });
 		equals(typeof a_b(window.category, window.test).visit(), 'string');
 		equals(typeof a_b(window.category, window.test).convert(), 'string');
 	} else {

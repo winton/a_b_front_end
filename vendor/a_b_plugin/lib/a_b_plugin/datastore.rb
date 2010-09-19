@@ -32,7 +32,9 @@ class ABPlugin
       else
         @data[key] << value
       end
-      @data[key].uniq!
+      if @data[key].respond_to?(:uniq!)
+        @data[key].uniq!
+      end
       unless key == :e
         # Add difference to @send
         diff = @data[key] - old

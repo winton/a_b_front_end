@@ -137,7 +137,8 @@ window.A_B = new function() {
 				// Other value
 				else
 					data[key].push(value);
-				data[key] = uniqArray(data[key]);
+				if (data.constructor == Array)
+					data[key] = uniqArray(data[key]);
 				var diff = [];
 				if (key != 'e') {
 					// Add difference to send
