@@ -59,6 +59,7 @@
       %th Suggested Visits
       %th Confidence
     <%
+    var condition_keys = [];
     var odd;
     $.each(test.variants, function(i, variant) {
     odd = (i % 2 == 0); %>
@@ -72,13 +73,22 @@
       var found = false;
       $.each(variant.for_dashboard, function(e, item) {
       if (e == env) {
-      found = true; %>
+      condition_keys = condition_keys.concat(item.condition_keys);
+      found = true; 
+      if (typeof(condition) != "undefined") {
+      if (item.conditions[condition])
+      item = item.conditions[condition];
+      else
+      found = false;
+      }
+      if (found) { %>
       %td <%= item.visits %>
       %td <%= item.conversions %>
       %td <%= item.conversion_rate %>
       %td <%= item.suggested_visits %>
       %td <%= item.confidence %>
       <%
+      }
       }
       });
       if (!found) { %>
@@ -91,8 +101,16 @@
     <% }); %>
     %tr{ :class => '<% if (!odd) { %>odd<% } %>'}
       %td{ :colspan => 6 }
+        <%
+        condition_keys = window.dashboard.uniqArray(condition_keys).sort();
+        if (condition_keys.length) { %>
         %select.conditions
-          %option Conditions
+          %option All data
+          <%
+          $.each(condition_keys, function(i, c) { %>
+          <option <%= typeof(condition) != "undefined" && c == condition ? "selected" : "" %>><%= c %></option>
+          <% }); %>
+        <% } %>
         .right
           .edit
             %a{ :href => '#' }

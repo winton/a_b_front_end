@@ -206,7 +206,7 @@ window.A_B = new function() {
 						u[array[i]] = 1;
 				 }
 				 return a;
-			};
+			}
 		};
 	};
 	

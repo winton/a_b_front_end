@@ -135,7 +135,7 @@ window.Dashboard = function(sites) {
 		
 		$('#tests .remove a').live('click', function() {
 			if (!confirm('Are you sure?'))
-				return;
+				return false;
 			
 			var site = byName(sites, $('#sites .selected').text());
 			var category = byName(site.categories, $('#categories .selected').text());
@@ -155,6 +155,8 @@ window.Dashboard = function(sites) {
 					'json'
 				);
 			});
+			
+			return false;
 		});
 
 		$('.selectable:not(.new)').live('click', function() {
@@ -204,7 +206,7 @@ window.Dashboard = function(sites) {
 		
 		$('.header > .remove').live('click', function() {
 			if (!confirm('Are you sure?'))
-				return;
+				return false;
 			
 			var filter = $(this).parents('.filter');
 			var id = filter.attr('id');
@@ -230,6 +232,25 @@ window.Dashboard = function(sites) {
 					'json'
 				);
 			});
+			
+			return false;
+		});
+		
+		$('select.conditions').live('change', function() {
+			var env = $('#envs .selected').text();
+			var site = byName(sites, $('#sites .selected').text());
+			var category = byName(site.categories, $('#categories .selected').text());
+			var table = $(this).parents('table');
+			var id = table.attr('id').match(/\d+/)[0];
+			var condition = $("option:selected", this).html();
+			var test = byId(category.tests, id);
+			table.replaceWith(
+				$('#test_template').tmpl({
+					condition: (condition == 'All data' ? undefined : condition),
+					test: test,
+					env: env
+				})
+			);
 		});
 		
 		$(document).keyup(function(e) {
@@ -281,6 +302,16 @@ window.Dashboard = function(sites) {
 		})[0];
 	}
 	
+	function uniqArray(array) {
+		 var u = {}, a = [];
+		 for(var i = 0, l = array.length; i < l; i++) {
+				if (u[array[i]]) continue;
+				a.push(array[i]);
+				u[array[i]] = 1;
+		 }
+		 return a;
+	}
+	
 	function withoutName(records, name) {
 		return $.grep(records, function(item) {
 			return (item.name != name);
@@ -288,6 +319,7 @@ window.Dashboard = function(sites) {
 	}
 	
 	$.extend(this, {
-		sites: function() { return sites; }
+		sites: function() { return sites; },
+		uniqArray: uniqArray
 	});
 };
