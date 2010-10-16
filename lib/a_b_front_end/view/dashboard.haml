@@ -31,7 +31,7 @@
       .span-2
         %label{ :for => 'test_name' } Name
       .span-5
-        %input{ :id => 'test_name', :name => 'name', :type => 'text' }
+        <input class='variants' name='variants[]' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
       .clear
       .submit
         %input{ :type => 'submit', :value => 'Submit' }
@@ -40,13 +40,13 @@
 %textarea.hide#tests_form_variant_template
   .span-2
     %label
-      <% if (typeof control != "undefined") { %>
+      <% if (typeof control != "undefined" && control) { %>
       Control
       <% } else { %>
       Variant
       <% } %>
   .span-5
-    %input{ :class => 'variants', :name => 'variants[]', :type => 'text' }
+    <input class='variants' name='variants[]' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
 
 %textarea.hide#test_template
   %table{ :id => 'test_<%= test.id %>' }
@@ -58,40 +58,45 @@
       %th Conversion Rate
       %th Suggested Visits
       %th Confidence
-    <%
-    var condition_keys = [];
-    var odd;
-    $.each(test.variants, function(i, variant) {
-    odd = (i % 2 == 0); %>
+    :plain
+      <%
+        var condition_keys = [];
+        var odd;
+        $.each(test.variants, function(i, variant) {
+          odd = (i % 2 == 0); %>
     %tr{ :class => '<% if (odd) { %>odd<% } %>'}
       %td
         <%= variant.name %>
         <% if (i == 0) { %>
         %span (control)
         <% } %>
-      <%
-      var found = false;
-      $.each(variant.for_dashboard, function(e, item) {
-      if (e == env) {
-      condition_keys = condition_keys.concat(item.condition_keys);
-      found = true; 
-      if (typeof(condition) != "undefined") {
-      if (item.conditions[condition])
-      item = item.conditions[condition];
-      else
-      found = false;
-      }
-      if (found) { %>
+      :plain
+        <%
+          var found = false;
+          $.each(variant.for_dashboard, function(e, item) {
+            if (e == env) {
+              condition_keys = condition_keys.concat(item.condition_keys);
+              found = true; 
+              if (typeof(condition) != "undefined") {
+                if (item.conditions[condition])
+                  item = item.conditions[condition];
+                else
+                  found = false;
+              }
+              if (found) {
+        %>
       %td <%= item.visits %>
       %td <%= item.conversions %>
       %td <%= item.conversion_rate %>
       %td <%= item.suggested_visits %>
       %td <%= item.confidence %>
-      <%
-      }
-      }
-      });
-      if (!found) { %>
+      :plain
+        <%
+              }
+            }
+          });
+          if (!found) {
+        %>
       %td 0
       %td 0
       %td -
@@ -101,13 +106,14 @@
     <% }); %>
     %tr{ :class => '<% if (!odd) { %>odd<% } %>'}
       %td{ :colspan => 6 }
-        <%
-        condition_keys = window.dashboard.uniqArray(condition_keys).sort();
-        if (condition_keys.length) { %>
+        :plain
+          <%
+            condition_keys = window.dashboard.uniqArray(condition_keys).sort();
+            if (condition_keys.length) {
+          %>
         %select.conditions
           %option All data
-          <%
-          $.each(condition_keys, function(i, c) { %>
+          <% $.each(condition_keys, function(i, c) { %>
           <option <%= typeof(condition) != "undefined" && c == condition ? "selected" : "" %>><%= c %></option>
           <% }); %>
         <% } %>
