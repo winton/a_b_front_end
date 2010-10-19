@@ -2,6 +2,7 @@
 
 def do_symlinks(folder)
   normal_symlinks = %w(
+    config/a_b.yml
     config/database.yml
     config/newrelic.yml
     config/lilypad.txt
