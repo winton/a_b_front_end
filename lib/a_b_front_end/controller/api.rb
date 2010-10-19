@@ -61,6 +61,22 @@ Application.class_eval do
     ).to_json
   end
   
+  put '/tests.json' do
+    ABPlugin::API.update_test(
+      :include => params[:include] || { 
+        :variants => {
+          :methods => :for_dashboard
+        }
+      },
+      :id => params[:id],
+      :name => params[:name],
+      :old_variants => params[:old_variants],
+      :only => params[:only],
+      :token => current_user.single_access_token,
+      :variants => params[:variants]
+    ).to_json
+  end
+  
   delete '/tests.json' do
     ABPlugin::API.delete_test(
       :id => params[:id],

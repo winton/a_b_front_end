@@ -31,7 +31,10 @@
       .span-2
         %label{ :for => 'test_name' } Name
       .span-5
-        <input class='variants' name='variants[]' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
+        <% if (typeof(test) != "undefined") { %>
+        <input name='id' type='hidden' value='<%= test.id %>' />
+        <% } %>
+        <input id='test_name' name='name' type='text' value='<%= (typeof(test) != "undefined") ? test.name : "" %>' />
       .clear
       .submit
         %input{ :type => 'submit', :value => 'Submit' }
@@ -46,7 +49,7 @@
       Variant
       <% } %>
   .span-5
-    <input class='variants' name='variants[]' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
+    <input class='variants' name='<%= (typeof(id) != "undefined") ? "old_variants[" + id + "]" : "variants[]" %>' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
 
 %textarea.hide#test_template
   %table{ :id => 'test_<%= test.id %>' }

@@ -17,20 +17,23 @@
         - if current_user
           .span-12.last
             .span-4.nav.align-left
-              %a{ :href => '/get_started' } Get Started
+              /%a{ :href => '/get_started' } Get Started
+              &nbsp;
             .span-4.nav
-              %a{ :href => '/account' } Account
+              /%a{ :href => '/account' } Account
+              &nbsp;
             .span-4.nav.last
               %a{ :href => '/sessions/destroy' } Log out
         - else
           .span-12.last
-            .span-3.nav
+            .span-4.nav
               %a.sign_up Sign up
-            .span-3.nav
+            .span-4.nav
               %a{ :href => 'http://github.com/winton/a_b_plugin' } Github
-            .span-3.nav
-              %a{ :href => '/help' } Help
-            .span-3.nav.last
+            /
+              .span-3.nav
+                %a{ :href => '/help' } Help
+            .span-4.nav.last
               %a.log_in Log in
             .clear
             .dialog.sign_up.hide

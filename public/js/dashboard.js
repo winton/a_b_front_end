@@ -243,18 +243,66 @@ window.Dashboard = function(sites) {
 		var table = $(this).closest('table');
 		var id = table.attr('id').match(/\d+/)[0];
 		var test = byId(currentState().category.tests, id);
-		var dialog = $('#tests_form_template').tmpl({ name: test.name });
+		var dialog = $('#tests_form_template').tmpl({ test: test });
+		var submit = $('.submit', dialog);
+		var variant_template = $('#tests_form_variant_template');
 		
 		table.replaceWith(dialog);
 		$('input:first', dialog)[0].select();
 		
 		$.each(test.variants, function(i, item) {
-			$('.submit', dialog).before(
-				$('#tests_form_variant_template').tmpl({
+			submit.before(
+				variant_template.tmpl({
 					control: (i == 0),
+					id: item.id,
 					name: item.name
 				})
 			);
+		});
+		
+		submit.before(
+			variant_template.tmpl({
+				control: (test.variants.length == 0)
+			})
+		);
+		
+		$('.cancel', dialog).click(function() {
+			dialog.remove();
+			$('#categories .selected').click().click();
+			return false;
+		});
+		
+		$('form', dialog).submit(function() {
+			var form = $(this);
+			var submits = $('.submit input', form);
+			
+			$(submits[0]).attr({
+				'disabled': true,
+				'value': 'One moment...'
+			});
+			$(submits[1]).remove();
+			
+			var data = currentState();
+			var category = data.category;
+			var site = data.site;
+			
+			queue.queue(function() {
+				$.post(
+					'/tests.json',
+					form.serialize() + '&_method=PUT',
+					function(response) {
+						category.tests = category.tests || [];
+						category.tests = $.map(category.tests, function(item) {
+							return (item.id == id) ? response : item;
+						});
+						queue.dequeue();
+						$('#categories .selected').click().click();
+					},
+					'json'
+				);
+			});
+			
+			return false;
 		});
 	}
 	
@@ -264,9 +312,10 @@ window.Dashboard = function(sites) {
 		
 		var test = $(this).closest('table');
 		var id = test.attr('id').match(/\d+/)[0];
+		var category = currentState().category;
 		
 		test.remove();
-		category.tests = $.grep(currentState().category.tests, function(item) {
+		category.tests = $.grep(category.tests, function(item) {
 			return (item.id != id);
 		});
 		
