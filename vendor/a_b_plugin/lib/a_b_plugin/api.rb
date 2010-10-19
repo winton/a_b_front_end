@@ -6,7 +6,7 @@ class ABPlugin
     def self.create_category(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
-      post('/categories.json', :query => compress(
+      post('/categories.json', :body => compress(
         :token => attributes.delete(:token) || Config.token,
         :category => attributes
       ))
@@ -15,7 +15,7 @@ class ABPlugin
     def self.create_env(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
-      post('/envs.json', :query => compress(
+      post('/envs.json', :body => compress(
         :token => attributes.delete(:token) || Config.token,
         :env => attributes
       ))
@@ -24,7 +24,7 @@ class ABPlugin
     def self.create_site(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
-      post('/sites.json', :query => compress(
+      post('/sites.json', :body => compress(
         :include => attributes.delete(:include),
         :only => attributes.delete(:only),
         :token => attributes.delete(:token) || Config.token,
@@ -35,7 +35,7 @@ class ABPlugin
     def self.create_test(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
-      post('/tests.json', :query => compress(
+      post('/tests.json', :body => compress(
         :include => attributes.delete(:include),
         :only => attributes.delete(:only),
         :token => attributes.delete(:token) || Config.token,
@@ -46,7 +46,7 @@ class ABPlugin
     def self.create_user(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
-      post('/users.json', :query => compress(
+      post('/users.json', :body => compress(
         :token => Config.token,
         :user => attributes
       ))
