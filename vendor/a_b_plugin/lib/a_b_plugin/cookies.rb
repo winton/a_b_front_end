@@ -21,11 +21,20 @@ class ABPlugin
         return unless ABPlugin.instance
       
         if ABPlugin.instance.respond_to?(:cookies)
-          ABPlugin.instance.send(:cookies)[key.to_s] = value
+          if value.nil?
+            ABPlugin.instance.send(:cookies).delete(key.to_s)
+          else
+            ABPlugin.instance.send(:cookies)[key.to_s] = value
+          end
         
         elsif ABPlugin.instance.respond_to?(:response)
-          ABPlugin.instance.response.set_cookie(key.to_s, :value => value, :path => '/')
-          ABPlugin.instance.request.cookies[key.to_s] = value
+          if value.nil?
+            ABPlugin.instance.response.delete_cookie(key.to_s)
+            ABPlugin.instance.request.cookies[key.to_s] = nil
+          else  
+            ABPlugin.instance.response.set_cookie(key.to_s, :value => value, :path => '/')
+            ABPlugin.instance.request.cookies[key.to_s] = value
+          end
       
         else
           $cookies ||= {}

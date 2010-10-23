@@ -86,20 +86,19 @@ window.A_B = new function() {
 	};
 	
 	Datastore = function() {
-		return new function() {
+		return new function(data, send) {
 			
 			this.get = get;
 			this.set = set;
-			
-			var data, send;
+			this.toCookies = toCookies;
 			
 			// Get cookie
-			data = Cookies.get('a_b');
-			send = Cookies.get('a_b_s');
+			data = data || Cookies.get('a_b');
+			send = send || Cookies.get('a_b_s');
 			
 			// Convert from JSON
-			data = eval('(' + (data || '{}') + ')');
-			send = eval('(' + (send || '{}') + ')');
+			data = data ? eval('(' + data + ')') : {};
+			send = send ? eval('(' + send + ')') : {};
 			
 			function diffArray(a1, a2) {
 				var a = [], diff = [];
@@ -390,6 +389,8 @@ window.A_B = new function() {
 		categories = options.categories;
 		env = options.env;
 		url = options.url;
+		
+		Datastore(options.data, options.send).toCookies();
 		API.request();
 	};
 };

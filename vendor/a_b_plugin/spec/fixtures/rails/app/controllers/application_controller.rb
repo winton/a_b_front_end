@@ -16,6 +16,12 @@ class ApplicationController < ActionController::Base
     render :inline => "<%= private_methods.collect(&:to_s).include?(params[:method]) ? 1 : 0 %>"
   end
   
+  def destroy_cookie
+    ABPlugin.instance = self
+    ABPlugin::Cookies.set('a_b', nil)
+    render :nothing => true
+  end
+  
   def get_cookie
     ABPlugin.instance = self
     render :text => ABPlugin::Cookies.get('a_b')

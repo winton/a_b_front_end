@@ -10,6 +10,12 @@ class SinatraApp < Sinatra::Base
     erb "<%= private_methods.collect(&:to_s).include?(params[:method]) ? 1 : 0 %>"
   end
   
+  get "/destroy_cookie" do
+    ABPlugin.instance = self
+    ABPlugin::Cookies.set('a_b', nil)
+    nil
+  end
+  
   get "/get_cookie" do
     ABPlugin.instance = self
     ABPlugin::Cookies.get('a_b')

@@ -7,14 +7,10 @@ class ABPlugin
       @a_b_plugin ||= ABPlugin.new(self)
       
       if category || test || extra
-        Test.new(category, test, extra)
+        @a_b_plugin.test(category, test, extra)
       
-      elsif Config.categories && Config.url
-        "a_b_setup(#{{
-          :categories => Config.categories,
-          :env => Config.env,
-          :url => Config.url
-        }.to_json});"
+      else
+        @a_b_plugin.javascript
       end
     end
   end

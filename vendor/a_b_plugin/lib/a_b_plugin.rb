@@ -18,7 +18,19 @@ require File.dirname(__FILE__) + '/a_b_plugin/yaml'
 
 class ABPlugin
   
+  attr_reader :data
+  attr_reader :send
+  
   def initialize(instance=nil)
+    @data = Cookies.get('a_b')
+    @send = Cookies.get('a_b_s')
+    
+    @data = @data ? JSON(@data) : {}
+    @send = @send ? JSON(@send) : {}
+    
+    @data = symbolize_keys(@data)
+    @send = symbolize_keys(@send)
+    
     ABPlugin.instance = instance
     
     if Config.binary
@@ -26,6 +38,22 @@ class ABPlugin
     elsif ABPlugin.load_yaml?
       ABPlugin.load_yaml
     end
+  end
+  
+  def javascript
+    if Config.categories && Config.url
+      "a_b_setup(#{{
+        :categories => Config.categories,
+        :data => @data,
+        :env => Config.env,
+        :send => @send,
+        :url => Config.url
+      }.to_json});"
+    end
+  end
+  
+  def test(category=nil, test=nil, extra=nil)
+    Test.new(@data, @send, category, test, extra)
   end
   
   class <<self
@@ -88,6 +116,15 @@ class ABPlugin
           end
         end
       end
+    end
+  end
+  
+  private
+  
+  def symbolize_keys(hash)
+    hash.inject({}) do |options, (key, value)|
+      options[(key.to_sym rescue key) || key] = value
+      options
     end
   end
 end

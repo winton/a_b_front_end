@@ -23,15 +23,15 @@ describe ABPlugin::Test do
       a_b(:category, :test).visit.should == :v1
     end
     
-    it "should set cookie" do
+    it "should set @send" do
       a_b(:category, :test).visit
-      JSON($cookies['a_b_s']).should == {"v"=>[2]}
+      @a_b_plugin.send.should == {:v=>[2]}
     end
     
     it "should maintain state if called more than once" do
       a_b(:category, :test).visit
       a_b(:category, :test).visit
-      JSON($cookies['a_b_s']).should == {"v"=>[2]}
+      @a_b_plugin.send.should == {:v=>[2]}
     end
     
     it "should return the variant name if variant specified and selected" do
@@ -70,7 +70,7 @@ describe ABPlugin::Test do
     
     it "should accept a hash with extra boolean values" do
       a_b(:category, :test, :e => true).visit(:v1)
-      JSON($cookies['a_b_s']).should == {"v"=>[2],"e"=>{"e" => true}}
+      @a_b_plugin.send.should == {:v=>[2],:e=>{:e => true}}
     end
   end
   
@@ -89,15 +89,15 @@ describe ABPlugin::Test do
       a_b(:category, :test).convert.should == :v1
     end
     
-    it "should set cookie" do
+    it "should set @send" do
       a_b(:category, :test).convert
-      JSON($cookies['a_b_s']).should == {"v"=>[2], "c"=>[2]}
+      @a_b_plugin.send.should == {:v=>[2], :c=>[2]}
     end
     
     it "should maintain state if called more than once" do
       a_b(:category, :test).convert
       a_b(:category, :test).convert
-      JSON($cookies['a_b_s']).should == {"v"=>[2], "c"=>[2]}
+      @a_b_plugin.send.should == {:v=>[2], :c=>[2]}
     end
     
     it "should return the variant name if variant specified and selected" do
@@ -136,7 +136,7 @@ describe ABPlugin::Test do
     
     it "should accept a hash with extra boolean values" do
       a_b(:category, :test, :e => true).convert(:v1)
-      JSON($cookies['a_b_s']).should == {"v"=>[2],"c"=>[2],"e"=>{"e" => true}}
+      @a_b_plugin.send.should == {:v=>[2],:c=>[2],:e=>{:e => true}}
     end
   end
 end

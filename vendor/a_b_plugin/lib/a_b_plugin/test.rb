@@ -1,14 +1,14 @@
 class ABPlugin
   class Test
     
-    def initialize(c, t=nil, e=nil, &block)
+    def initialize(data, send, c, t=nil, e=nil, &block)
       # c, t, e = category, test, extras
       
       if c.respond_to?(:keys)
         e, c = c, nil
       end
       
-      @data = Datastore.new
+      @data = Datastore.new(data, send)
       @extras = @data.get(:e)
       @extras.merge!(e) if e
       
