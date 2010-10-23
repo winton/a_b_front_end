@@ -3,6 +3,7 @@ window.A_B = new function() {
 	// Global variables
 	
 	var categories, env, url;
+	var allow_requests = true;
 	
 	// Classes
 	
@@ -26,8 +27,8 @@ window.A_B = new function() {
 			clearTimeout(timer);
 			timer = setTimeout(function() {
 				var json = Cookies.get('a_b_s');
-				if (json) {
-					Cookies.set('a_b_s', null);
+				if (json && allow_requests) {
+					allow_requests = false;
 					var src = [
 						url, '/a_b.js?',
 						'e=', encodeURIComponent(env), '&',
@@ -378,6 +379,11 @@ window.A_B = new function() {
 	
 	window.a_b = function(c, t, e) {
 		return Test(c, t, e);
+	};
+	
+	window.a_b_finished = function() {
+		Cookies.set('a_b_s', null);
+		allow_requests = true;
 	};
 	
 	window.a_b_setup = function(options) {
