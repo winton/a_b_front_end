@@ -7,7 +7,7 @@ unless defined?(ABPlugin::Gems)
     
       VERSIONS = {
         :httparty => '=0.5.2',
-        :json => '=1.2.0',
+        :json => '=1.4.3',
         :'rack-test' => '=0.5.3',
         :rake => '=0.8.7',
         :rails => '=2.3.5',

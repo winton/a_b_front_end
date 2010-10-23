@@ -132,12 +132,22 @@ describe ABPlugin do
       it "should call API.get" do
         ABPlugin::API.should_receive(:get).with('/sites.json',
           :query => {
-            :only => [ :id, :category_id, :name, :tests, :variants ],
             :site => { :name => "site" },
-            :include => { :categories => { :tests => :variants }
-          },
-          :token=>"token"
-        }).and_return(nil)
+            :include => {
+              :categories => {
+                :include => {
+                  :tests => {
+                    :include => {
+                      :variants=>true
+                    }
+                  }
+                }
+              }
+            },
+            :token=>"token",
+            :only => [ :id, :category_id, :name, :tests, :variants ]
+          }
+        ).and_return(nil)
         ABPlugin.new
       end
       
