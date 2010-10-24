@@ -7,3 +7,6 @@ authlogic:
 deploy:
   repo: git@github.com:br/a_b_front_end_deploy
   path: config
+lightbox:
+  repo: git://github.com/buckwilson/Lightbox_me.git
+  path: public/js

@@ -15,7 +15,7 @@ window.Dashboard = function(sites) {
 		});
 		
 		$('.add').click(add);
-		$('#tests .variants').live('keyup', variantKeyUp);
+		$('.variants').live('keyup', variantKeyUp);
 		$('#tests .edit a').live('click', testEdit);
 		$('#tests .remove a').live('click', testRemove);
 		$('.selectable:not(.new)').live('click', selectableClick);
@@ -96,17 +96,17 @@ window.Dashboard = function(sites) {
 			});
 		} else {
 			$('#tests .dialog').remove();
-			$('#tests .header').after($('#tests_form_template').tmpl());
 			
-			var dialog = $('#tests .dialog');
+			var dialog = $('#tests_form_template').tmpl();
 			
 			$('.submit', dialog).before(
 				$('#tests_form_variant_template').tmpl({ control: true })
 			);
-			$('input:first', dialog).focus();
+			
+			lightbox(dialog);
 			
 			$('.cancel', dialog).click(function() {
-				dialog.remove();
+				dialog.trigger('close');
 				return false;
 			});
 			
@@ -141,6 +141,17 @@ window.Dashboard = function(sites) {
 				return false;
 			});
 		}
+	}
+	
+	function lightbox(el) {
+		el.lightbox_me({
+			destroyOnClose: true,
+			centered: true,
+			onLoad: function() {
+				$('input:first[type=text]', el)[0].select();
+			},
+			overlayCSS: { background: 'white', opacity: 0.75 }
+		});
 	}
 	
 	function remove() {
@@ -247,8 +258,7 @@ window.Dashboard = function(sites) {
 		var submit = $('.submit', dialog);
 		var variant_template = $('#tests_form_variant_template');
 		
-		table.replaceWith(dialog);
-		$('input:first', dialog)[0].select();
+		lightbox(dialog);
 		
 		$.each(test.variants, function(i, item) {
 			submit.before(
@@ -267,8 +277,7 @@ window.Dashboard = function(sites) {
 		);
 		
 		$('.cancel', dialog).click(function() {
-			dialog.remove();
-			$('#categories .selected').click().click();
+			dialog.trigger('close');
 			return false;
 		});
 		
@@ -304,6 +313,8 @@ window.Dashboard = function(sites) {
 			
 			return false;
 		});
+		
+		return false;
 	}
 	
 	function testRemove() {
@@ -332,10 +343,12 @@ window.Dashboard = function(sites) {
 	}
 	
 	function variantKeyUp() {
-		if ($('#tests .variants[value=]').length < 1)
-			$('#tests .dialog .submit').before(
+		if ($('.variants[value=]').length < 1) {
+			$('.dialog .submit').before(
 				$('#tests_form_variant_template').tmpl()
 			);
+			$('.dialog').trigger('resize');
+		}
 	}
 	
 	// Helpers

@@ -1,5 +1,5 @@
 - @css = %w(dashboard)
-- @js = %w(tmpl dashboard)
+- @js = %w(tmpl dashboard lightbox/jquery.lightbox_me)
 /.success This is a test!
 .dashboard
   .span-12.filter#sites
@@ -26,11 +26,11 @@
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
 
 %textarea.hide#tests_form_template
-  .dialog
+  .dialog.span-7.last
     %form{ :action => '/tests', :method => 'post' }
       .span-2
         %label{ :for => 'test_name' } Name
-      .span-5
+      .span-4
         <% if (typeof(test) != "undefined") { %>
         <input name='id' type='hidden' value='<%= test.id %>' />
         <% } %>
@@ -48,7 +48,7 @@
       <% } else { %>
       Variant
       <% } %>
-  .span-5
+  .span-4
     <input class='variants' name='<%= (typeof(id) != "undefined") ? "old_variants[" + id + "]" : "variants[]" %>' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
 
 %textarea.hide#test_template

@@ -9,9 +9,9 @@
 }
 
 .dashboard .selectable {
-	background: #E5ECF9;
-	border: 2px solid #C2D2EF;
-	color: #000099;
+	background: rgb(239, 239, 239);
+	border: 2px solid rgb(207, 207, 207);
+	color: #8F8F8F;
 	cursor: pointer;
 	float: left;
 	height: 40px;
@@ -24,9 +24,9 @@
 }
 
 .dashboard .selectable.selected {
-	background: #E6EFC2;
-	border-color: #C6D880;
-	color: #264409;
+	background: #E5ECF9;
+	border-color: #C2D2EF;
+	color: #000099;
 	text-decoration: none;
 }
 
@@ -44,21 +44,6 @@
 	width: 90%;
 }
 
-.dashboard #tests .dialog {
-	margin-top: 15px;
-	overflow: auto;
-	padding: 5px 20px;
-}
-
-.dashboard #tests .dialog label {
-	line-height: 27px;
-}
-
-.dashboard #tests .dialog .submit {
-	float: right;
-	margin-top: 4px;
-}
-
 .dashboard #tests table {
 	border-width: 2px;
 	border-spacing: 0px;
@@ -69,9 +54,6 @@
 	margin-top: 15px;
 }
 
-.dashboard #tests table a {
-	text-decoration: none;
-}
 
 .dashboard #tests table td {
 	padding: 10px;
@@ -127,4 +109,18 @@
 
 .dashboard #tests table tr.odd {
 	background-color: #fff;
+}
+
+.dialog {
+	overflow: auto;
+	padding: 15px 0px 15px 20px;
+}
+
+.dialog label {
+	line-height: 27px;
+}
+
+.dialog .submit {
+	float: right;
+	margin: 15px 20px 0 0;
 }
