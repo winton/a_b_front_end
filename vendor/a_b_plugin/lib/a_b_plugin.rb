@@ -22,6 +22,8 @@ class ABPlugin
   attr_reader :send
   
   def initialize(instance=nil)
+    ABPlugin.instance = instance
+    
     @data = Cookies.get('a_b')
     @send = Cookies.get('a_b_s')
     
@@ -30,8 +32,6 @@ class ABPlugin
     
     @data = symbolize_keys(@data)
     @send = symbolize_keys(@send)
-    
-    ABPlugin.instance = instance
     
     if Config.binary
       ABPlugin.write_yaml

@@ -39,7 +39,7 @@ window.A_B = new function() {
 						document.documentElement;
 					var script = document.createElement('script');
 					script.setAttribute('src', src);
-					head.appendChild(script); 
+					head.appendChild(script);
 				}
 			}, 10);
 		}
@@ -85,20 +85,22 @@ window.A_B = new function() {
 		};
 	};
 	
-	Datastore = function() {
-		return new function(data, send) {
+	Datastore = function(data, send) {
+		return new function() {
 			
 			this.get = get;
 			this.set = set;
 			this.toCookies = toCookies;
 			
-			// Get cookie
-			data = data || Cookies.get('a_b');
-			send = send || Cookies.get('a_b_s');
-			
-			// Convert from JSON
-			data = data ? eval('(' + data + ')') : {};
-			send = send ? eval('(' + send + ')') : {};
+			if (!data && !send) {
+				// Get cookie
+				data = data || Cookies.get('a_b');
+				send = send || Cookies.get('a_b_s');
+
+				// Convert from JSON
+				data = data ? eval('(' + data + ')') : {};
+				send = send ? eval('(' + send + ')') : {};
+			}
 			
 			function diffArray(a1, a2) {
 				var a = [], diff = [];
@@ -135,7 +137,7 @@ window.A_B = new function() {
 				else if (value.constructor == Array)
 					data[key] = data[key].concat(value);
 				// Other value
-				else
+				else if (data[key].indexOf(value) == -1)
 					data[key].push(value);
 				if (data.constructor == Array)
 					data[key] = uniqArray(data[key]);
