@@ -112,14 +112,14 @@ window.Dashboard = function(sites) {
 			var target = filter.next();
 			var target_id = target.attr('id');
 			
+			filter.children('.selected').not(this).click();
+			$('.edit, .remove', filter).removeClass('hide');
+			target.removeClass('hide');
+			
 			var data = currentState();
 			var site = data.site;
 			var env = data.env;
 			var category = data.category;
-			
-			filter.children('.selected').not(this).click();
-			$('.edit, .remove', filter).removeClass('hide');
-			target.removeClass('hide');
 			
 			if (target_id != 'tests') {
 				if (target_id && site[target_id]) {
