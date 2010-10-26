@@ -6,6 +6,7 @@
     .header
       Sites&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
+      /%img{ :class => 'edit hide', :src => '/image/edit.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
     - @sites.each do |site|
       .selectable= site['name']
@@ -14,28 +15,51 @@
       Environments&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
+      %img{ :class => 'edit hide', :src => '/image/edit.png' }
   .span-24.last.hide.filter#categories
     .header
       Categories&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
+      /%img{ :class => 'edit hide', :src => '/image/edit.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
   .span-24.last.hide.filter#tests
     .header
       Tests&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
+      %img{ :class => 'edit hide', :src => '/image/edit.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
+
+%textarea.hide#envs_form_template
+  .dialog.span-8.last
+    %form{ :action => '/envs', :method => 'post' }
+      .span-3
+        %label{ :for => 'env_name' } Environment
+      .span-4.last
+        <% if (typeof(env) != "undefined") { %>
+        <input name='id' type='hidden' value='<%= env.id %>' />
+        <% } %>
+        <input name='site_id' type='hidden' value='<%= site.id %>' />
+        <input id='env_name' name='name' type='text' value='<%= (typeof(env) != "undefined") ? env.name : "" %>' />
+      .submit
+        %input{ :type => 'submit', :value => 'Submit' }
+        %input{ :class => 'cancel', :type => 'reset', :value => 'Cancel' }
+
+%textarea.hide#envs_form_domain_template
+  .span-3
+    %label Domain name
+  .span-4.last
+    <input class='domains' name='domains[]' type='text' value='<%= (typeof(domain) != "undefined") ? domain : "" %>' />
 
 %textarea.hide#tests_form_template
   .dialog.span-7.last
     %form{ :action => '/tests', :method => 'post' }
       .span-2
-        %label{ :for => 'test_name' } Name
-      .span-4
+        %label{ :for => 'test_name' } Test
+      .span-4.last
         <% if (typeof(test) != "undefined") { %>
         <input name='id' type='hidden' value='<%= test.id %>' />
         <% } %>
         <input id='test_name' name='name' type='text' value='<%= (typeof(test) != "undefined") ? test.name : "" %>' />
-      .clear
       .submit
         %input{ :type => 'submit', :value => 'Submit' }
         %input{ :class => 'cancel', :type => 'reset', :value => 'Cancel' }
@@ -48,7 +72,7 @@
       <% } else { %>
       Variant
       <% } %>
-  .span-4
+  .span-4.last
     <input class='variants' name='<%= (typeof(id) != "undefined") ? "old_variants[" + id + "]" : "variants[]" %>' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
 
 %textarea.hide#test_template

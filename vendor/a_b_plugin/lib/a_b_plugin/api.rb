@@ -105,6 +105,17 @@ class ABPlugin
       ))
     end
     
+    def self.update_env(attributes={})
+      return unless Config.token && Config.url
+      base_uri Config.url
+      put('/envs.json', :body => compress(
+        :include => attributes.delete(:include),
+        :only => attributes.delete(:only),
+        :token => attributes.delete(:token) || Config.token,
+        :env => attributes
+      ))
+    end
+    
     def self.update_test(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url

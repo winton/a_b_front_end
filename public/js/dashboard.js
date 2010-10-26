@@ -15,12 +15,14 @@ window.Dashboard = function(sites) {
 		});
 		
 		$('.add').click(add);
-		$('.variants').live('keyup', variantKeyUp);
+		$('.domains').live('keyup', domainKeyUp);
+		$('.header > .edit').live('click', edit);
+		$('.header > .remove').live('click', remove);
+		$('.selectable:not(.new)').live('click', selectableClick);
+		$('select.conditions').live('change', testConditionsChange);
 		$('#tests .edit a').live('click', testEdit);
 		$('#tests .remove a').live('click', testRemove);
-		$('.selectable:not(.new)').live('click', selectableClick);
-		$('.header > .remove').live('click', remove);
-		$('select.conditions').live('change', testConditionsChange);
+		$('.variants').live('keyup', variantKeyUp);
 	});
 	
 	// Events
@@ -28,130 +30,40 @@ window.Dashboard = function(sites) {
 	function add() {
 		var filter = $(this).parents('.filter');
 		var id = filter.attr('id');
-
+		
 		removeSelectablesWithForms();
 		
-		if (id != 'tests') {
-			var form = $('<form/>').append(
-				$('<input/>').attr({
-					name: 'name',
-					type: 'text'
-				})
-			);
-			
-			var div = $('<div/>')
-				.addClass('selectable')
-				.addClass('new')
-				.append(form);
+		if (id == 'tests')
+			addTest();
+		else if (id == 'envs')
+			addEnv();
+		else
+			addOther(filter, id);
 		
-			filter.append(div);
-			div.click();
-			addLastClassToSelectables();
-			
-			$('input', form).select();
-
-			form.submit(function() {
-				var data = currentState();
-				var site = data.site;
-				var name = $('input', this).val();
-				var post;
-
-				if (id == 'envs' || id == 'categories') {
-					post = { name: name, site_id: site.id };
-					site[id] = site[id] || [];
-					site[id].push(post);
-				} else {
-					post = { name: name };
-					sites.push(post);
-					post = $.extend({ include: [ 'envs', 'categories' ] }, post);
-				}
-
-				var selectable = createSelectable(name);
-				$(this).parents('.selectable').replaceWith(selectable);
-				addLastClassToSelectables();
-				selectable.click();
-
-				queue.queue(function() {
-					$.post(
-						'/' + id + '.json',
-						post,
-						function(response) {
-							var modified = $.map(site ? site[id] : sites, function(item) {
-								if (item.name == name)
-									return response;
-								else
-									return item;
-							});
-							if (site)
-								site[id] = modified;
-							else
-								sites = modified;
-							queue.dequeue();
-						},
-						'json'
-					);
-				});
-
-				return false;
-			});
-		} else {
-			$('#tests .dialog').remove();
-			
-			var dialog = $('#tests_form_template').tmpl();
-			
-			$('.submit', dialog).before(
-				$('#tests_form_variant_template').tmpl({ control: true })
+		return false;
+	}
+	
+	function domainKeyUp() {
+		if ($('.domains[value=]').length < 1) {
+			$('.dialog .submit').before(
+				$('#envs_form_domain_template').tmpl()
 			);
-			
-			lightbox(dialog);
-			
-			$('.cancel', dialog).click(function() {
-				dialog.trigger('close');
-				return false;
-			});
-			
-			$('form', dialog).submit(function() {
-				var form = $(this);
-				var submits = $('.submit input', form);
-				
-				$(submits[0]).attr({
-					'disabled': true,
-					'value': 'One moment...'
-				});
-				$(submits[1]).remove();
-				
-				var data = currentState();
-				var category = data.category;
-				var site = data.site;
-				
-				queue.queue(function() {
-					$.post(
-						'/tests.json',
-						form.serialize() + '&category=' + category.name,
-						function(response) {
-							category.tests = category.tests || [];
-							category.tests.push(response);
-							queue.dequeue();
-							$('#categories .selected').click().click();
-						},
-						'json'
-					);
-				});
-				
-				return false;
-			});
+			$('.dialog').trigger('resize');
 		}
 	}
 	
-	function lightbox(el) {
-		el.lightbox_me({
-			destroyOnClose: true,
-			centered: true,
-			onLoad: function() {
-				$('input:first[type=text]', el)[0].select();
-			},
-			overlayCSS: { background: 'white', opacity: 0.75 }
-		});
+	function edit() {
+		var filter = $(this).parents('.filter');
+		var id = filter.attr('id');
+		
+		removeSelectablesWithForms();
+		
+		if (id == 'sites')
+			editSite();
+		else if (id == 'envs')
+			editEnv();
+		
+		return false;
 	}
 	
 	function remove() {
@@ -165,6 +77,7 @@ window.Dashboard = function(sites) {
 		var selected = $('.selectable.selected', filter);
 		var name = selected.text();
 		
+		$(this).prev().addClass('hide');
 		$(this).addClass('hide');
 		hideNextAll(filter);
 		selected.remove();
@@ -205,7 +118,7 @@ window.Dashboard = function(sites) {
 			var category = data.category;
 			
 			filter.children('.selected').not(this).click();
-			$('.remove', filter).removeClass('hide');
+			$('.edit, .remove', filter).removeClass('hide');
 			target.removeClass('hide');
 			
 			if (target_id != 'tests') {
@@ -227,11 +140,9 @@ window.Dashboard = function(sites) {
 							$('#test_template').tmpl({ test: test, env: env.name })
 						);
 					});
-				else
-					$('#tests .add').click();
 			}
 		} else
-			$('.remove', filter).addClass('hide');
+			$('.edit, .remove', filter).addClass('hide');
 	}
 	
 	function testConditionsChange() {
@@ -258,8 +169,6 @@ window.Dashboard = function(sites) {
 		var submit = $('.submit', dialog);
 		var variant_template = $('#tests_form_variant_template');
 		
-		lightbox(dialog);
-		
 		$.each(test.variants, function(i, item) {
 			submit.before(
 				variant_template.tmpl({
@@ -276,10 +185,7 @@ window.Dashboard = function(sites) {
 			})
 		);
 		
-		$('.cancel', dialog).click(function() {
-			dialog.trigger('close');
-			return false;
-		});
+		lightbox(dialog);
 		
 		$('form', dialog).submit(function() {
 			var form = $(this);
@@ -353,6 +259,52 @@ window.Dashboard = function(sites) {
 	
 	// Helpers
 	
+	function addEnv() {
+		var data = currentState();
+		var site = data.site;
+		var dialog = $('#envs_form_template').tmpl({ site: site });
+		
+		$('.submit', dialog).before(
+			$('#envs_form_domain_template').tmpl()
+		);
+		
+		lightbox(dialog);
+		
+		$('form', dialog).submit(function() {
+			var name = $('#env_name').val();
+			var form = $(this);
+			var submits = $('.submit input', form);
+			
+			$(submits[0]).attr({
+				'disabled': true,
+				'value': 'One moment...'
+			});
+			$(submits[1]).remove();
+			
+			queue.queue(function() {
+				$.post(
+					'/envs.json',
+					form.serialize(),
+					function(response) {
+						site.envs = site.envs || [];
+						site.envs.push(response);
+						
+						var selectable = createSelectable(name);
+						$('#envs').append(selectable);
+						addLastClassToSelectables();
+						selectable.click();
+						
+						dialog.trigger('close');
+						queue.dequeue();
+					},
+					'json'
+				);
+			});
+			
+			return false;
+		});
+	}
+	
 	function addLastClassToSelectables() {
 		var fn = function(el, row_length) {
 			$(el).children('.selectable').each(function(i, item) {
@@ -368,6 +320,127 @@ window.Dashboard = function(sites) {
 		$('#categories').each(function() {
 			fn(this, 6);
 		});
+	}
+	
+	function addOther(filter, id) {
+		var form = $('<form/>').append(
+			$('<input/>').attr({
+				name: 'name',
+				type: 'text'
+			})
+		);
+		
+		var div = $('<div/>')
+			.addClass('selectable')
+			.addClass('new')
+			.append(form);
+	
+		filter.append(div);
+		div.click();
+		addLastClassToSelectables();
+		
+		$('input', form).select();
+
+		form.submit(function() {
+			var data = currentState();
+			var site = data.site;
+			var name = $('input', this).val();
+			var post;
+
+			if (id == 'envs' || id == 'categories') {
+				post = { name: name, site_id: site.id };
+				site[id] = site[id] || [];
+				site[id].push(post);
+			} else {
+				post = { name: name };
+				sites.push(post);
+				post = $.extend({ include: [ 'envs', 'categories' ] }, post);
+			}
+
+			var selectable = createSelectable(name);
+			$(this).parents('.selectable').replaceWith(selectable);
+			addLastClassToSelectables();
+			selectable.click();
+
+			queue.queue(function() {
+				$.post(
+					'/' + id + '.json',
+					post,
+					function(response) {
+						var modified = $.map(site ? site[id] : sites, function(item) {
+							if (item.name == name)
+								return response;
+							else
+								return item;
+						});
+						if (site)
+							site[id] = modified;
+						else
+							sites = modified;
+						queue.dequeue();
+					},
+					'json'
+				);
+			});
+
+			return false;
+		});
+	}
+	
+	function addTest() {
+		var dialog = $('#tests_form_template').tmpl();
+		
+		$('.submit', dialog).before(
+			$('#tests_form_variant_template').tmpl({ control: true })
+		);
+		
+		lightbox(dialog);
+				
+		$('form', dialog).submit(function() {
+			var form = $(this);
+			var submits = $('.submit input', form);
+			
+			$(submits[0]).attr({
+				'disabled': true,
+				'value': 'One moment...'
+			});
+			$(submits[1]).remove();
+			
+			var data = currentState();
+			var category = data.category;
+			var site = data.site;
+			
+			queue.queue(function() {
+				$.post(
+					'/tests.json',
+					form.serialize() + '&category=' + category.name,
+					function(response) {
+						category.tests = category.tests || [];
+						category.tests.push(response);
+						queue.dequeue();
+						$('#categories .selected').click().click();
+						dialog.trigger('close');
+					},
+					'json'
+				);
+			});
+			
+			return false;
+		});
+	}
+	
+	function byId(records, id) {
+		return byProperty(records, 'id', id);
+	}
+	
+	function byName(records, name) {
+		return byProperty(records, 'name', name);
+	}
+	
+	function byProperty(records, property, value) {
+		return $.grep(records, function(item) {
+			return (item[property] == value);
+		})[0];
 	}
 	
 	function createSelectable(name) {
@@ -404,26 +477,84 @@ window.Dashboard = function(sites) {
 		};
 	}
 	
+	function editEnv() {
+		var data = currentState();
+		var env = data.env;
+		var site = data.site;
+		var dialog = $('#envs_form_template').tmpl({
+			env: env,
+			site: site
+		});
+		
+		$.each(env.domains.split(','), function(i, item) {
+			$('.submit', dialog).before(
+				$('#envs_form_domain_template').tmpl({ domain: item })
+			);
+		});
+		
+		$('.submit', dialog).before(
+			$('#envs_form_domain_template').tmpl()
+		);
+		
+		lightbox(dialog);
+		
+		$('form', dialog).submit(function() {
+			var name = $('#env_name').val();
+			var form = $(this);
+			var submits = $('.submit input', form);
+			
+			$(submits[0]).attr({
+				'disabled': true,
+				'value': 'One moment...'
+			});
+			$(submits[1]).remove();
+			
+			queue.queue(function() {
+				$.post(
+					'/envs.json',
+					form.serialize() + '&_method=put',
+					function(response) {
+						site.envs = site.envs || [];
+						site.envs = $.map(site.envs, function(item) {
+							return (item.id == env.id) ? response : item;
+						});
+						
+						var selectable = createSelectable(name).addClass('selected');
+						$('#envs .selected').replaceWith(selectable);
+						addLastClassToSelectables();
+						
+						dialog.trigger('close');
+						queue.dequeue();
+					},
+					'json'
+				);
+			});
+			
+			return false;
+		});
+	}
+	
 	function hideNextAll(filter) {
 		filter.nextAll().addClass('hide');
 	}
 	
+	function lightbox(el) {
+		el.lightbox_me({
+			destroyOnClose: true,
+			centered: true,
+			onLoad: function() {
+				$('input:first[type=text]', el)[0].select();
+				$('.cancel', el).click(function() {
+					el.trigger('close');
+					return false;
+				});
+			},
+			overlayCSS: { background: 'white', opacity: 0.75 }
+		});
+	}
+	
 	function removeSelectablesWithForms() {
 		$('.selectable.new').remove();
-	}
-	
-	function byId(records, id) {
-		return byProperty(records, 'id', id);
-	}
-	
-	function byName(records, name) {
-		return byProperty(records, 'name', name);
-	}
-	
-	function byProperty(records, property, value) {
-		return $.grep(records, function(item) {
-			return (item[property] == value);
-		})[0];
 	}
 	
 	function uniqArray(array) {
