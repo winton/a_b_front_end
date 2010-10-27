@@ -145,7 +145,7 @@ describe ABPlugin do
               }
             },
             :token=>"token",
-            :only => [ :id, :category_id, :name, :tests, :variants ]
+            :only => [ :id, :name, :tests, :variants ]
           }
         ).and_return(nil)
         ABPlugin.new

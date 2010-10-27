@@ -99,7 +99,7 @@ class ABPlugin
             }
           }
         },
-        :only => [ :id, :category_id, :name, :tests, :variants ],
+        :only => [ :id, :name, :tests, :variants ],
         :name => name
       )
     end
