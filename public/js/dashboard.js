@@ -495,11 +495,12 @@ window.Dashboard = function(sites) {
 			site: site
 		});
 		
-		$.each(env.domains.split(','), function(i, item) {
-			$('.submit', dialog).before(
-				$('#envs_form_domain_template').tmpl({ domain: item })
-			);
-		});
+		if (env.domains)
+			$.each(env.domains.split(','), function(i, item) {
+				$('.submit', dialog).before(
+					$('#envs_form_domain_template').tmpl({ domain: item })
+				);
+			});
 		
 		$('.submit', dialog).before(
 			$('#envs_form_domain_template').tmpl()
