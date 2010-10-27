@@ -105,6 +105,17 @@ class ABPlugin
       ))
     end
     
+    def self.update_category(attributes={})
+      return unless Config.token && Config.url
+      base_uri Config.url
+      put('/categories.json', :body => compress(
+        :include => attributes.delete(:include),
+        :only => attributes.delete(:only),
+        :token => attributes.delete(:token) || Config.token,
+        :category => attributes
+      ))
+    end
+    
     def self.update_env(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
@@ -113,6 +124,17 @@ class ABPlugin
         :only => attributes.delete(:only),
         :token => attributes.delete(:token) || Config.token,
         :env => attributes
+      ))
+    end
+    
+    def self.update_site(attributes={})
+      return unless Config.token && Config.url
+      base_uri Config.url
+      put('/sites.json', :body => compress(
+        :include => attributes.delete(:include),
+        :only => attributes.delete(:only),
+        :token => attributes.delete(:token) || Config.token,
+        :site => attributes
       ))
     end
     

@@ -58,10 +58,10 @@ window.Dashboard = function(sites) {
 		
 		removeSelectablesWithForms();
 		
-		if (id == 'sites')
-			editSite();
-		else if (id == 'envs')
-			editEnv();
+		if (id == 'envs')
+			editEnv(filter);
+		else
+			editOther(filter, id);
 		
 		return false;
 	}
@@ -126,7 +126,7 @@ window.Dashboard = function(sites) {
 					target.children('.selectable').remove();
 					
 					$.each(site[target_id], function(i, item) {
-						target.append(createSelectable(item.name));
+						target.append(createSelectable(item.name).div);
 					});
 					
 					addLastClassToSelectables();
@@ -290,9 +290,9 @@ window.Dashboard = function(sites) {
 						site.envs.push(response);
 						
 						var selectable = createSelectable(name);
-						$('#envs').append(selectable);
+						$('#envs').append(selectable.div);
 						addLastClassToSelectables();
-						selectable.click();
+						selectable.div.click();
 						
 						dialog.trigger('close');
 						queue.dequeue();
@@ -323,28 +323,18 @@ window.Dashboard = function(sites) {
 	}
 	
 	function addOther(filter, id) {
-		var form = $('<form/>').append(
-			$('<input/>').attr({
-				name: 'name',
-				type: 'text'
-			})
-		);
+		var selectable = createSelectable('', true);
 		
-		var div = $('<div/>')
-			.addClass('selectable')
-			.addClass('new')
-			.append(form);
-	
-		filter.append(div);
-		div.click();
+		filter.append(selectable.div);
+		selectable.div.click();
 		addLastClassToSelectables();
 		
-		$('input', form).select();
+		selectable.input.select();
 
-		form.submit(function() {
+		selectable.form.submit(function() {
 			var data = currentState();
 			var site = data.site;
-			var name = $('input', this).val();
+			var name = selectable.input.val();
 			var post;
 
 			if (id == 'envs' || id == 'categories') {
@@ -357,10 +347,10 @@ window.Dashboard = function(sites) {
 				post = $.extend({ include: [ 'envs', 'categories' ] }, post);
 			}
 
-			var selectable = createSelectable(name);
-			$(this).parents('.selectable').replaceWith(selectable);
+			selectable = createSelectable(name);
+			$(this).parents('.selectable').replaceWith(selectable.div);
 			addLastClassToSelectables();
-			selectable.click();
+			selectable.div.click();
 
 			queue.queue(function() {
 				$.post(
@@ -443,8 +433,27 @@ window.Dashboard = function(sites) {
 		})[0];
 	}
 	
-	function createSelectable(name) {
-		return $('<div/>').addClass('selectable').html(name);
+	function createSelectable(name, input) {
+		var div = $('<div/>').addClass('selectable');
+		var form;
+		
+		if (input) {
+			input = $('<input/>').attr({
+				name: 'name',
+				type: 'text',
+				value: name
+			});
+			form = $('<form/>').append(input);
+			
+			div.addClass('new').append(form);
+		} else
+			div.html(name);
+		
+		return {
+			div: div,
+			input: input,
+			form: form
+		};
 	}
 	
 	function currentState() {
@@ -477,7 +486,7 @@ window.Dashboard = function(sites) {
 		};
 	}
 	
-	function editEnv() {
+	function editEnv(filter) {
 		var data = currentState();
 		var env = data.env;
 		var site = data.site;
@@ -519,8 +528,9 @@ window.Dashboard = function(sites) {
 							return (item.id == env.id) ? response : item;
 						});
 						
-						var selectable = createSelectable(name).addClass('selected');
-						$('#envs .selected').replaceWith(selectable);
+						var selectable = createSelectable(name);
+						selectable.div.addClass('selected');
+						$('.selected', filter).replaceWith(selectable.div);
 						addLastClassToSelectables();
 						
 						dialog.trigger('close');
@@ -534,8 +544,54 @@ window.Dashboard = function(sites) {
 		});
 	}
 	
+	function editOther(filter, id) {
+		var data = currentState();
+		var selected = $('.selected', filter);
+		var selectable = createSelectable(selected.text(), true);
+		
+		selected.replaceWith(selectable.div);
+		selectable.div.addClass('selected');
+		selectable.div.data({ original_name: selected.text() });
+		selectable.input.select();
+		
+		addLastClassToSelectables();
+		
+		selectable.form.submit(function() {
+			var name = selectable.input.val();
+			var post = { name: name, _method: 'put' };
+			
+			if (id == 'sites') {
+				data.site.name = name;
+				post.id = data.site.id;
+			} else if (id == 'categories') {
+				data.category.name = name;
+				post.id = data.category.id;
+			}
+
+			selectable = createSelectable(name);
+			$(this).parents('.selectable').replaceWith(selectable.div);
+			selectable.div.addClass('selected');
+			addLastClassToSelectables();
+
+			queue.queue(function() {
+				$.post(
+					'/' + id + '.json',
+					post,
+					function(response) {
+						queue.dequeue();
+					},
+					'json'
+				);
+			});
+
+			return false;
+		});
+	}
+	
 	function hideNextAll(filter) {
-		filter.nextAll().addClass('hide');
+		var next_all = filter.nextAll();
+		next_all.addClass('hide');
+		$('.remove, .edit', next_all).addClass('hide');
 	}
 	
 	function lightbox(el) {
@@ -554,7 +610,11 @@ window.Dashboard = function(sites) {
 	}
 	
 	function removeSelectablesWithForms() {
-		$('.selectable.new').remove();
+		$('.selectable.new:not(.selected)').remove();
+		$('.selectable.new.selected').each(function(i, item) {
+			console.log(item);
+			$(item).html($(item).data('original_name'));
+		});
 	}
 	
 	function uniqArray(array) {

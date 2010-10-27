@@ -15,6 +15,14 @@ Application.class_eval do
     ).to_json
   end
   
+  put '/categories.json' do
+    ABPlugin::API.update_category(
+      :id => params[:id],
+      :name => params[:name],
+      :token => current_user.single_access_token
+    ).to_json
+  end
+  
   delete '/envs.json' do
     ABPlugin::API.delete_env(
       :name => params[:name],
@@ -52,6 +60,14 @@ Application.class_eval do
       :include => params[:include],
       :name => params[:name],
       :only => params[:only],
+      :token => current_user.single_access_token
+    ).to_json
+  end
+  
+  put '/sites.json' do
+    ABPlugin::API.update_site(
+      :id => params[:id],
+      :name => params[:name],
       :token => current_user.single_access_token
     ).to_json
   end

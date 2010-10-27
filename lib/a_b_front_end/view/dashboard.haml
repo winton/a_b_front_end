@@ -6,8 +6,8 @@
     .header
       Sites&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
-      /%img{ :class => 'edit hide', :src => '/image/edit.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
+      %img{ :class => 'edit hide', :src => '/image/edit.png' }
     - @sites.each do |site|
       .selectable= site['name']
   .span-12.last.hide.filter#envs
@@ -20,13 +20,12 @@
     .header
       Categories&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
-      /%img{ :class => 'edit hide', :src => '/image/edit.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
+      %img{ :class => 'edit hide', :src => '/image/edit.png' }
   .span-24.last.hide.filter#tests
     .header
       Tests&nbsp;
       %img{ :class => 'add', :src => '/image/add.png' }
-      %img{ :class => 'edit hide', :src => '/image/edit.png' }
       %img{ :class => 'remove hide', :src => '/image/remove.png' }
 
 %textarea.hide#envs_form_template
