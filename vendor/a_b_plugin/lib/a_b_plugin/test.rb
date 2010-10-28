@@ -60,6 +60,8 @@ class ABPlugin
       if !visit && !@test['variants'].empty?
         if $testing
           visit = @test['variants'][0]
+        elsif variant
+          visit = variant
         else
           visit = @test['variants'][rand(@test['variants'].size)]
         end

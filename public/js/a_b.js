@@ -119,6 +119,14 @@ window.A_B = new function() {
 				return (data[key] || (key == 'e' ? {} : []));
 			}
 			
+			function inArray(arr, obj) {
+				for (var i = 0; i < arr.length; i++) {
+					if (arr[i] == obj)
+						return i;
+				}
+				return -1;
+			};
+			
 			function objEmpty(obj) {
 			  for(var i in obj)
 			    return false;
@@ -137,7 +145,7 @@ window.A_B = new function() {
 				else if (value.constructor == Array)
 					data[key] = data[key].concat(value);
 				// Other value
-				else if (data[key].indexOf(value) == -1)
+				else if (inArray(data[key], value) == -1)
 					data[key].push(value);
 				if (data.constructor == Array)
 					data[key] = uniqArray(data[key]);
@@ -296,6 +304,8 @@ window.A_B = new function() {
 				if (!visit && test.variants.length) {
 					if (window.testing)
 						visit = test.variants[0];
+					else if (variant)
+						visit = variant;
 					else
 						visit = test.variants[
 							Math.floor(Math.random() * test.variants.length)
@@ -317,12 +327,13 @@ window.A_B = new function() {
 			// Private
 			
 			function findCategory(name) {
-				return grep(categories, function(c) {
-					return (
-						c.name == name ||
-						symbolizeName(c.name) == name
-					);
-				})[0];
+				if (categories)
+					return grep(categories, function(c) {
+						return (
+							c.name == name ||
+							symbolizeName(c.name) == name
+						);
+					})[0];
 			}
 			
 			function findTest(name) {
