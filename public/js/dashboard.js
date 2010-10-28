@@ -613,8 +613,9 @@ window.Dashboard = function(sites) {
 	function removeSelectablesWithForms() {
 		$('.selectable.new:not(.selected)').remove();
 		$('.selectable.new.selected').each(function(i, item) {
-			console.log(item);
-			$(item).html($(item).data('original_name'));
+			$(item)
+				.html($(item).data('original_name'))
+				.removeClass('new');
 		});
 	}
 	
