@@ -188,18 +188,29 @@ window.Dashboard = function(sites) {
 		lightbox(dialog);
 		
 		$('form', dialog).submit(function() {
+			var data = currentState();
+			var category = data.category;
+			var site = data.site;
 			var form = $(this);
+			var name = $('#test_name').val();
 			var submits = $('.submit input', form);
+			var valid = true;
+			
+			if (category.tests)
+				$.each(category.tests, function(i, item) {
+					if (item.name == name && item.id != id)
+						valid = false;
+				});
+			if (!valid) {
+				alert('Name already taken.');
+				return false;
+			}
 			
 			$(submits[0]).attr({
 				'disabled': true,
 				'value': 'One moment...'
 			});
 			$(submits[1]).remove();
-			
-			var data = currentState();
-			var category = data.category;
-			var site = data.site;
 			
 			queue.queue(function() {
 				$.post(
@@ -212,6 +223,7 @@ window.Dashboard = function(sites) {
 						});
 						queue.dequeue();
 						$('#categories .selected').click().click();
+						dialog.trigger('close');
 					},
 					'json'
 				);
@@ -274,6 +286,17 @@ window.Dashboard = function(sites) {
 			var name = $('#env_name').val();
 			var form = $(this);
 			var submits = $('.submit input', form);
+			var valid = true;
+			
+			if (site.envs)
+				$.each(site.envs, function(i, item) {
+					if (item.name == name)
+						valid = false;
+				});
+			if (!valid) {
+				alert('Name already taken.');
+				return false;
+			}
 			
 			$(submits[0]).attr({
 				'disabled': true,
@@ -332,11 +355,24 @@ window.Dashboard = function(sites) {
 		selectable.input.select();
 
 		selectable.form.submit(function() {
+			var container = $(this).parents('.selectable');
 			var data = currentState();
 			var site = data.site;
 			var name = selectable.input.val();
+			var valid = true;
 			var post;
-
+			
+			// validate
+			container.siblings().each(function(i, item) {
+				if ($(item).text() == name)
+					valid = false;
+			});
+			if (!valid) {
+				alert("Name already exists.");
+				return false;
+			}
+			
+			// post data
 			if (id == 'envs' || id == 'categories') {
 				post = { name: name, site_id: site.id };
 				site[id] = site[id] || [];
@@ -346,9 +382,10 @@ window.Dashboard = function(sites) {
 				sites.push(post);
 				post = $.extend({ include: [ 'envs', 'categories' ] }, post);
 			}
-
+			
+			// create selectable
 			selectable = createSelectable(name);
-			$(this).parents('.selectable').replaceWith(selectable.div);
+			container.replaceWith(selectable.div);
 			addLastClassToSelectables();
 			selectable.div.click();
 
@@ -387,18 +424,29 @@ window.Dashboard = function(sites) {
 		lightbox(dialog);
 				
 		$('form', dialog).submit(function() {
+			var data = currentState();
+			var category = data.category;
+			var site = data.site;
 			var form = $(this);
+			var name = $('#test_name').val();
 			var submits = $('.submit input', form);
+			var valid = true;
+			
+			if (category.tests)
+				$.each(category.tests, function(i, item) {
+					if (item.name == name)
+						valid = false;
+				});
+			if (!valid) {
+				alert('Name already taken.');
+				return false;
+			}
 			
 			$(submits[0]).attr({
 				'disabled': true,
 				'value': 'One moment...'
 			});
 			$(submits[1]).remove();
-			
-			var data = currentState();
-			var category = data.category;
-			var site = data.site;
 			
 			queue.queue(function() {
 				$.post(
@@ -512,6 +560,17 @@ window.Dashboard = function(sites) {
 			var name = $('#env_name').val();
 			var form = $(this);
 			var submits = $('.submit input', form);
+			var valid = true;
+			
+			if (site.envs)
+				$.each(site.envs, function(i, item) {
+					if (item.name == name && item.id != env.id)
+						valid = false;
+				});
+			if (!valid) {
+				alert('Name already taken.');
+				return false;
+			}
 			
 			$(submits[0]).attr({
 				'disabled': true,
@@ -560,7 +619,19 @@ window.Dashboard = function(sites) {
 		selectable.form.submit(function() {
 			var name = selectable.input.val();
 			var post = { name: name, _method: 'put' };
+			var valid = true;
 			
+			// validate
+			selectable.div.siblings().each(function(i, item) {
+				if ($(item).text() == name)
+					valid = false;
+			});
+			if (!valid) {
+				alert("Name already exists.");
+				return false;
+			}
+			
+			// post data
 			if (id == 'sites') {
 				data.site.name = name;
 				post.id = data.site.id;
