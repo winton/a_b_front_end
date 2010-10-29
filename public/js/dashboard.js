@@ -406,7 +406,7 @@ window.Dashboard = function(sites) {
 					form.serialize() + '&category=' + category.name,
 					function(response) {
 						category.tests = category.tests || [];
-						category.tests.push(response);
+						category.tests.unshift(response);
 						queue.dequeue();
 						$('#categories .selected').click().click();
 						dialog.trigger('close');
