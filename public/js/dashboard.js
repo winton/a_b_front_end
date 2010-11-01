@@ -125,9 +125,9 @@ window.Dashboard = function(sites) {
 			var category = data.category;
 			
 			if (target_id != 'tests') {
+				target.children('.selectable').remove();
+				
 				if (target_id && site[target_id]) {
-					target.children('.selectable').remove();
-					
 					$.each(site[target_id], function(i, item) {
 						target.append(createSelectable(item.name).div);
 					});
@@ -399,7 +399,7 @@ window.Dashboard = function(sites) {
 					'/' + id + '.json',
 					post,
 					function(response) {
-						var modified = $.map(site ? site[id] : sites, function(item) {
+						var modified = $.map(id != 'sites' ? site[id] : sites, function(item) {
 							if (item.name == name)
 								return response;
 							else
