@@ -23,6 +23,8 @@ window.Dashboard = function(sites) {
 		$('#tests .edit a').live('click', testEdit);
 		$('#tests .remove a').live('click', testRemove);
 		$('.variants').live('keyup', variantKeyUp);
+		
+		selectFromCookies();
 	});
 	
 	// Events
@@ -104,11 +106,12 @@ window.Dashboard = function(sites) {
 	function selectableClick() {
 		var filter = $(this).parents('.filter');
 		var id = filter.attr('id');
+		var selected = $(this).hasClass('selected');
 		
 		$(this).toggleClass('selected');
 		hideNextAll(filter);
 		
-		if ($(this).hasClass('selected')) {
+		if (!selected) {
 			var target = filter.next();
 			var target_id = target.attr('id');
 			
@@ -143,6 +146,8 @@ window.Dashboard = function(sites) {
 			}
 		} else
 			$('.edit, .remove', filter).addClass('hide');
+		
+		selectToCookies(id, selected, $(this).text());
 	}
 	
 	function testConditionsChange() {
@@ -688,6 +693,32 @@ window.Dashboard = function(sites) {
 				.html($(item).data('original_name'))
 				.removeClass('new');
 		});
+	}
+	
+	function selectFromCookies() {
+		$.each([ 'sites', 'envs', 'categories' ], function(i, id) {
+			var c = cookie(id);
+			if (c)
+				$('#' + id + ' .selectable').each(function(i, item) {
+					item = $(item);
+					if (item.text() == c)
+						item.click();
+				});
+		});
+	}
+	
+	function selectToCookies(id, selected, text) {
+		if (!selected)
+			cookie(id, text);
+		else {
+			var found = false;
+			$.each([ 'sites', 'envs', 'categories' ], function(i, item) {
+				if (id == item)
+					found = true;
+				if (found)
+					cookie(item, null);
+			});
+		}
 	}
 	
 	function uniqArray(array) {
