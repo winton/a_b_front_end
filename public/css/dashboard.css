@@ -120,6 +120,11 @@
 	line-height: 27px;
 }
 
+.dialog .remove {
+	cursor: pointer;
+	vertical-align: -4px;
+}
+
 .dialog .submit {
 	float: right;
 	margin: 15px 20px 0 0;

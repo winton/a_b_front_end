@@ -73,6 +73,7 @@
       <% } %>
   .span-4.last
     <input class='variants' name='<%= (typeof(id) != "undefined") ? "old_variants[" + id + "]" : "variants[]" %>' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
+    <img class="remove <% if (typeof(id) == "undefined") { %>hide<% } %>" src="/image/remove.png">
 
 %textarea.hide#test_template
   %table{ :id => 'test_<%= test.id %>' }
@@ -127,7 +128,7 @@
       %td 0
       %td -
       %td -
-      %td 0%
+      %td -
       <% } %>
     <% }); %>
     %tr{ :class => '<% if (!odd) { %>odd<% } %>'}

@@ -15,6 +15,7 @@ window.Dashboard = function(sites) {
 		});
 		
 		$('.add').click(add);
+		$('.dialog .remove').live('click', dialogRemove);
 		$('.domains').live('keyup', domainKeyUp);
 		$('.header > .edit').live('click', edit);
 		$('.header > .remove').live('click', remove);
@@ -43,6 +44,37 @@ window.Dashboard = function(sites) {
 			addOther(filter, id);
 		
 		return false;
+	}
+	
+	function dialogRemove() {
+		var input_container = $(this).parent();
+		var text_container = input_container.prev();
+		var input = $(this).prev();
+		var form = $(this).parents('form');
+		var variant_template = $('#tests_form_variant_template');
+		var control = ($.trim(text_container.text()) == 'Control');
+		
+		if (input.attr('name').indexOf('old_variants') > -1)
+			form.append(
+				$('<input type="hidden" value="" />').attr({
+					name: input.attr('name')
+				})
+			);
+		
+		if (control) {
+			var variant = variant_template.tmpl({
+				control: true
+			});
+			text_container.replaceWith(variant);
+			$('input', variant).focus();
+		} else
+			text_container.remove();
+		
+		input_container.remove();
+		$('.variants', form).keyup();
+		
+		if (!control)
+			$('.variants[value=]:last').focus();
 	}
 	
 	function domainKeyUp() {
@@ -266,6 +298,8 @@ window.Dashboard = function(sites) {
 	}
 	
 	function variantKeyUp() {
+		if ($(this).val() != '')
+			$(this).next().removeClass('hide');
 		if ($('.variants[value=]').length < 1) {
 			$('.dialog .submit').before(
 				$('#tests_form_variant_template').tmpl()
