@@ -48,6 +48,7 @@
     %label Domain name
   .span-4.last
     <input class='domains' name='domains[]' type='text' value='<%= (typeof(domain) != "undefined") ? domain : "" %>' />
+    <img class="remove <% if (typeof(domain) == "undefined") { %>hide<% } %>" src="/image/remove.png">
 
 %textarea.hide#tests_form_template
   .dialog.span-7.last

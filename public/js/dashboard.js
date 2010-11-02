@@ -71,13 +71,15 @@ window.Dashboard = function(sites) {
 			text_container.remove();
 		
 		input_container.remove();
-		$('.variants', form).keyup();
+		$('.domains, .variants', form).keyup();
 		
 		if (!control)
-			$('.variants[value=]:last').focus();
+			$('.domains, .variants[value=]:last').focus();
 	}
 	
 	function domainKeyUp() {
+	  if ($(this).val() != '')
+			$(this).next().removeClass('hide');
 		if ($('.domains[value=]').length < 1) {
 			$('.dialog .submit').before(
 				$('#envs_form_domain_template').tmpl()
