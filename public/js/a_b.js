@@ -177,9 +177,7 @@ window.A_B = new function() {
 	
 			function toJson(obj) {
 				var json = [];
-				if (obj == null)
-					json.push(obj + '');
-				else if (obj.constructor == Object) {
+				if (obj.constructor == Object) {
 					json.push('{');
 					for (var name in obj) {
 						json.push('"' + name + '"');
@@ -203,8 +201,6 @@ window.A_B = new function() {
 					json.push('"' + obj + '"');
 				else if (typeof obj == 'number')
 					json.push(obj);
-				else
-					json.push(obj + '');
 				return json.join('');
 			}
 			

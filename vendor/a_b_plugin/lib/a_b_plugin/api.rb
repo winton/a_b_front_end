@@ -88,6 +88,18 @@ class ABPlugin
       ))
     end
     
+    def self.reset_variant(attributes={})
+      return unless Config.token && Config.url
+      base_uri Config.url
+      variant_id = attributes.delete(:variant_id)
+      post("/variants/#{variant_id}/reset.json", :body => compress(
+        :include => attributes.delete(:include),
+        :methods => attributes.delete(:methods),
+        :only => attributes.delete(:only),
+        :token => attributes.delete(:token) || Config.token
+      ))
+    end
+    
     def self.spec_js_setup
       return unless Config.token && Config.url
       base_uri Config.url
@@ -152,7 +164,9 @@ class ABPlugin
     private
     
     def self.compress(hash)
-      hash.delete_if { |key, value| value.nil? || value.empty? }
+      hash.delete_if do |key, value|
+        value.nil? || (value.respond_to?(:empty?) && value.empty?)
+      end
     end
   end
 end

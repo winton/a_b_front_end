@@ -85,7 +85,8 @@
 }
 
 .dashboard #tests table .edit,
-.dashboard #tests table .remove {
+.dashboard #tests table .remove,
+.dashboard #tests table .reset {
 	float: left;
 	margin: 0px 20px;
 }
@@ -128,4 +129,8 @@
 .dialog .submit {
 	float: right;
 	margin: 15px 20px 0 0;
+}
+
+.dialog #variant_id {
+	width: 125px;
 }

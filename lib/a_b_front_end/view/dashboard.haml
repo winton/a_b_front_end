@@ -50,32 +50,6 @@
     <input class='domains' name='domains[]' type='text' value='<%= (typeof(domain) != "undefined") ? domain : "" %>' />
     <img class="remove <% if (typeof(domain) == "undefined") { %>hide<% } %>" src="/image/remove.png">
 
-%textarea.hide#tests_form_template
-  .dialog.span-7.last
-    %form{ :action => '/tests', :method => 'post' }
-      .span-2
-        %label{ :for => 'test_name' } Test
-      .span-4.last
-        <% if (typeof(test) != "undefined") { %>
-        <input name='id' type='hidden' value='<%= test.id %>' />
-        <% } %>
-        <input id='test_name' name='name' type='text' value='<%= (typeof(test) != "undefined") ? test.name : "" %>' />
-      .submit
-        %input{ :type => 'submit', :value => 'Submit' }
-        %input{ :class => 'cancel', :type => 'reset', :value => 'Cancel' }
-
-%textarea.hide#tests_form_variant_template
-  .span-2
-    %label
-      <% if (typeof control != "undefined" && control) { %>
-      Control
-      <% } else { %>
-      Variant
-      <% } %>
-  .span-4.last
-    <input class='variants' name='<%= (typeof(id) != "undefined") ? "old_variants[" + id + "]" : "variants[]" %>' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
-    <img class="remove <% if (typeof(id) == "undefined") { %>hide<% } %>" src="/image/remove.png">
-
 %textarea.hide#test_template
   %table{ :id => 'test_<%= test.id %>' }
     %tr
@@ -154,3 +128,48 @@
             %a{ :href => '#' }
               %img{ :src => '/image/remove.png' }
               Delete
+          .reset
+            %a{ :href => '#' }
+              %img{ :src => '/image/reset.png' }
+              Reset
+
+%textarea.hide#tests_form_template
+  .dialog.span-7.last
+    %form{ :action => '/tests', :method => 'post' }
+      .span-2
+        %label{ :for => 'test_name' } Test
+      .span-4.last
+        <% if (typeof(test) != "undefined") { %>
+        <input name='id' type='hidden' value='<%= test.id %>' />
+        <% } %>
+        <input id='test_name' name='name' type='text' value='<%= (typeof(test) != "undefined") ? test.name : "" %>' />
+      .submit
+        %input{ :type => 'submit', :value => 'Submit' }
+        %input{ :class => 'cancel', :type => 'reset', :value => 'Cancel' }
+
+%textarea.hide#tests_form_variant_template
+  .span-2
+    %label
+      <% if (typeof control != "undefined" && control) { %>
+      Control
+      <% } else { %>
+      Variant
+      <% } %>
+  .span-4.last
+    <input class='variants' name='<%= (typeof(id) != "undefined") ? "old_variants[" + id + "]" : "variants[]" %>' type='text' value='<%= (typeof(name) != "undefined") ? name : "" %>' />
+    <img class="remove <% if (typeof(id) == "undefined") { %>hide<% } %>" src="/image/remove.png">
+
+%textarea.hide#tests_reset_form_template
+  .dialog.span-6.last
+    %form{ :action => '/test/reset', :method => 'post' }
+      .span-2
+        %label{ :for => 'variant_id' } Reset
+      .span-4.last
+        %select{ :id => 'variant_id', :name => 'variant_id' }
+          <option>All</option>
+          <% $.each(test.variants, function(i, variant) { %>
+          <option value="<%= variant.id %>"><%= variant.name %></option>
+          <% }); %>
+      .submit
+        %input{ :type => 'submit', :value => 'Submit' }
+        %input{ :class => 'cancel', :type => 'reset', :value => 'Cancel' }

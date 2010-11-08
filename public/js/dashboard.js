@@ -9,21 +9,22 @@ window.Dashboard = function(sites) {
 	$(function() {
 		addLastClassToSelectables();
 		
-		$(document).keyup(function(e) {
-			if (e.keyCode == 27) // esc
-				removeSelectablesWithForms();
-		});
-		
-		$('.add').click(add);
-		$('.dialog .remove').live('click', dialogRemove);
-		$('.domains').live('keyup', domainKeyUp);
-		$('.header > .edit').live('click', edit);
-		$('.header > .remove').live('click', remove);
-		$('.selectable:not(.new)').live('click', selectableClick);
-		$('select.conditions').live('change', testConditionsChange);
-		$('#tests .edit a').live('click', testEdit);
-		$('#tests .remove a').live('click', testRemove);
-		$('.variants').live('keyup', variantKeyUp);
+		$(document)
+			.delegate('.header > .add', 'click', add)
+			.delegate('.dialog .remove', 'click', dialogRemove)
+			.delegate('.domains', 'keyup', domainKeyUp)
+			.delegate('.header > .edit', 'click', edit)
+			.delegate('.header > .remove', 'click', remove)
+			.delegate('.selectable:not(.new)', 'click', selectableClick)
+			.delegate('select.conditions', 'change', testConditionsChange)
+			.delegate('#tests .edit a', 'click', testEdit)
+			.delegate('#tests .remove a', 'click', testRemove)
+			.delegate('#tests .reset a', 'click', testReset)
+			.delegate('.variants', 'keyup', variantKeyUp)
+			.keyup(function(e) {
+				if (e.keyCode == 27) // esc
+					removeSelectablesWithForms();
+			});
 		
 		selectFromCookies();
 	});
@@ -78,7 +79,7 @@ window.Dashboard = function(sites) {
 	}
 	
 	function domainKeyUp() {
-	  if ($(this).val() != '')
+		if ($(this).val() != '')
 			$(this).next().removeClass('hide');
 		if ($('.domains[value=]').length < 1) {
 			$('.dialog .submit').before(
@@ -294,6 +295,45 @@ window.Dashboard = function(sites) {
 				function() { queue.dequeue(); },
 				'json'
 			);
+		});
+		
+		return false;
+	}
+	
+	function testReset() {
+		var table = $(this).closest('table');
+		var id = table.attr('id').match(/\d+/)[0];
+		var test = byId(currentState().category.tests, id);
+		var dialog = $('#tests_reset_form_template').tmpl({ test: test });
+		
+		lightbox(dialog);
+		
+		$('form', dialog).submit(function() {
+			var variant_id = $('#variant_id').val();
+			var submits = $('.submit input', dialog);
+			
+			$(submits[0]).attr({
+				'disabled': true,
+				'value': 'One moment...'
+			});
+			$(submits[1]).remove();
+			
+			queue.queue(function() {
+				$.post(
+					'/variants/' + variant_id + '/reset.json',
+					function(response) {
+						test.variants = $.map(test.variants, function(item) {
+							return (item.id == response.id) ? response : item;
+						});
+						queue.dequeue();
+						$('#categories .selected').click().click();
+						dialog.trigger('close');
+					},
+					'json'
+				);
+			});
+			
+			return false;
 		});
 		
 		return false;
@@ -712,7 +752,9 @@ window.Dashboard = function(sites) {
 			destroyOnClose: true,
 			centered: true,
 			onLoad: function() {
-				$('input:first[type=text]', el)[0].select();
+				var input = $('input:first[type=text]', el)[0];
+				if (input)
+					input.select();
 				$('.cancel', el).click(function() {
 					el.trigger('close');
 					return false;

@@ -109,4 +109,14 @@ Application.class_eval do
       :variants => params[:variants]
     ).to_json
   end
+  
+  post '/variants/:variant_id/reset.json' do
+    ABPlugin::API.reset_variant(
+      :include => params[:include],
+      :only => params[:only],
+      :methods => params[:methods] || :for_dashboard,
+      :token => current_user.single_access_token,
+      :variant_id => params[:variant_id]
+    ).to_json
+  end
 end
