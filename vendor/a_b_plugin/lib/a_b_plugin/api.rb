@@ -88,11 +88,22 @@ class ABPlugin
       ))
     end
     
+    def self.reset_test(attributes={})
+      return unless Config.token && Config.url
+      base_uri Config.url
+      id = attributes.delete(:id)
+      post("/tests/#{id}/reset.json", :body => compress(
+        :include => attributes.delete(:include),
+        :only => attributes.delete(:only),
+        :token => attributes.delete(:token) || Config.token
+      ))
+    end
+    
     def self.reset_variant(attributes={})
       return unless Config.token && Config.url
       base_uri Config.url
-      variant_id = attributes.delete(:variant_id)
-      post("/variants/#{variant_id}/reset.json", :body => compress(
+      id = attributes.delete(:id)
+      post("/variants/#{id}/reset.json", :body => compress(
         :include => attributes.delete(:include),
         :methods => attributes.delete(:methods),
         :only => attributes.delete(:only),

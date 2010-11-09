@@ -303,7 +303,8 @@ window.Dashboard = function(sites) {
 	function testReset() {
 		var table = $(this).closest('table');
 		var id = table.attr('id').match(/\d+/)[0];
-		var test = byId(currentState().category.tests, id);
+		var category = currentState().category;
+		var test = byId(category.tests, id);
 		var dialog = $('#tests_reset_form_template').tmpl({ test: test });
 		
 		lightbox(dialog);
@@ -319,18 +320,33 @@ window.Dashboard = function(sites) {
 			$(submits[1]).remove();
 			
 			queue.queue(function() {
-				$.post(
-					'/variants/' + variant_id + '/reset.json',
-					function(response) {
-						test.variants = $.map(test.variants, function(item) {
-							return (item.id == response.id) ? response : item;
-						});
-						queue.dequeue();
-						$('#categories .selected').click().click();
-						dialog.trigger('close');
-					},
-					'json'
-				);
+				if (variant_id == 'All')
+					$.get(
+						'/tests/' + test.id + '/reset.json',
+						function(response) {
+							category.tests = category.tests || [];
+							category.tests = $.map(category.tests, function(item) {
+								return (item.id == id) ? response : item;
+							});
+							queue.dequeue();
+							$('#categories .selected').click().click();
+							dialog.trigger('close');
+						},
+						'json'
+					);
+				else
+					$.get(
+						'/variants/' + variant_id + '/reset.json',
+						function(response) {
+							test.variants = $.map(test.variants, function(item) {
+								return (item.id == response.id) ? response : item;
+							});
+							queue.dequeue();
+							$('#categories .selected').click().click();
+							dialog.trigger('close');
+						},
+						'json'
+					);
 			});
 			
 			return false;
