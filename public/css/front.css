@@ -1,0 +1,47 @@
+#front #title {
+	font-size: 30px;
+	font-weight: bold;
+	padding: 10px;
+	margin-top: 32px;
+	text-align: center;
+}
+
+#front #subtitle {
+	height: 90px;
+	font-size: 23px;
+	margin-top: 25px;
+	position: relative;
+	text-align: center;
+}
+
+#front #subtitle_arrow_1 {
+	left: 430px;
+	position: absolute;
+	top: 38px;
+}
+
+#front #subtitle_arrow_2 {
+	left: 685px;
+	position: absolute;
+	top: 35px;
+}
+
+#front #code_examples {
+	margin-top: -13px;
+}
+
+#front pre {
+	margin: 0.2em 0 0;
+	padding: 6px 10px 10px;
+}
+
+#front .one-line-code-example {
+	font-size: 23px;
+	margin-top: 45px;
+	text-align: center;
+}
+
+#front .one-line-code-example .sub-box {
+	margin-top: 13px;
+	padding: 18px 0 22px;
+}

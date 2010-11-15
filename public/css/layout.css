@@ -3,7 +3,12 @@ a {
 }
 
 body {
+	font-family: "Droid Sans", "Helvetica Neue", Arial, Helvetica, sans-serif !important;
 	font-size: 100%;
+}
+
+.code {
+	font: 1em 'Droid Sans Mono', 'monaco', 'andale mono', 'lucida console', monospace !important;
 }
 
 .container {
@@ -32,6 +37,11 @@ body {
 	text-transform: uppercase;
 }
 
+.highlight-box {
+	background: #E5ECF9;
+	border: 2px solid #C2D2EF;
+}
+
 .nav {
 	cursor: pointer;
 	line-height: 41px;
@@ -49,6 +59,19 @@ body {
 	display: block;
 	position: relative;
 	z-index: 2;
+}
+
+.space-left {
+	margin-left: 5px;
+}
+
+.space-right {
+	margin-right: 5px;
+}
+
+.sub-box {
+	background: rgb(239, 239, 239);
+	border: 2px solid rgb(207, 207, 207);
 }
 
 .top {
@@ -89,7 +112,7 @@ body {
 }
 
 .top .dialog label.confirm {
-	padding: 0 5px 0 269px;
+	padding: 0 5px 0 264px;
 }
 
 .top .logo {

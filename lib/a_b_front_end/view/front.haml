@@ -1,0 +1,54 @@
+- @css = %w(front)
+
+#front
+  #title.highlight-box
+    A/B and Multivariate Testing for Developers
+  #subtitle
+    Seamlessly test across
+    %strong server side
+    and
+    %strong client side
+    %img{ :src => '/image/subtitle_arrow_1.png', :id => 'subtitle_arrow_1' }
+    %img{ :src => '/image/subtitle_arrow_2.png', :id => 'subtitle_arrow_2' }
+  #code_examples
+    .span-12
+      .space-right
+        .header Ruby on Rails or Sinatra
+        %pre.code.sub-box
+          = preserve do
+            :escaped
+              <%
+              case a_b('front_page', 'intro').visit
+              when 'welcome' then
+              -%>
+
+                Welcome to my web site!
+
+              <% when 'thank_you' then -%>
+
+                Thank you for visiting my web site!
+
+              <% end -%>
+
+              <a href="/home">Enter</a>
+    .span-12.last
+      .space-left
+        .header Javascript
+        %pre.code.sub-box
+          = preserve do
+            :escaped
+              jQuery(function($) {
+
+                $('a').click(function() {
+                  a_b('front_page', 'intro').convert();
+                });
+
+              });
+  .clear
+  .one-line-code-example
+    Randomly select a variant to
+    %strong visit
+    .code.sub-box
+      a_b('category', 'test_name').visit()
+      %img{ :src => '/image/code_example_arrow.png' }
+      'variant_name'
