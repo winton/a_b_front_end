@@ -48,7 +48,38 @@
   .one-line-code-example
     Randomly select a variant to
     %strong visit
-    .code.sub-box
-      a_b('category', 'test_name').visit()
-      %img{ :src => '/image/code_example_arrow.png' }
-      'variant_name'
+    .sub-box
+      .code
+        a_b('category', 'test_name').visit()
+        %img{ :src => '/image/code_example_arrow.png' }
+        'variant_name'
+  .one-line-code-example
+    %strong Convert
+    the selected variant
+    .sub-box
+      .code
+        a_b('category', 'test_name').convert()
+        %img{ :src => '/image/code_example_arrow.png' }
+        'variant_name'
+  .one-line-code-example
+    Segment your test by adding
+    %strong conditions
+    .sub-box
+      .code
+        a_b('Logged in' => true)
+      .right
+        %strong Ruby
+        &nbsp;
+        &nbsp;
+        %a{ :href => '#' } Javascript
+  #web_interface
+    .span-12
+      .space-right
+        .sub-box
+    .span-12.last
+      .space-left
+        %strong Control panel
+        %ul
+          %li Define sites and environments
+          %li Create categories, tests, and variants
+          %li Review test results

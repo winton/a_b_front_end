@@ -104,10 +104,6 @@
 	color: #000000;
 }
 
-.dashboard #tests table .right {
-	float: right;
-}
-
 .dashboard #tests table tr.odd {
 	background-color: #fff;
 }

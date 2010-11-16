@@ -3,8 +3,8 @@ Application.class_eval do
   if environment == :development
     
     get '/spec/fake_data' do
-      response.set_cookie('a_b', :value => nil, :path => '/')
-      response.set_cookie('a_b_i', :value => nil, :path => '/')
+      response.delete_cookie('a_b')
+      response.delete_cookie('a_b_i')
       
       if request.cookies['category_name'] && request.cookies['site_name'] && request.cookies['test_name']
         categories = ABPlugin::Config.categories
@@ -14,9 +14,9 @@ Application.class_eval do
           @test = request.cookies['test_name']
           ABPlugin::Config.categories site['categories']
         end
-        response.set_cookie('category_name', :value => nil, :path => '/')
-        response.set_cookie('site_name', :value => nil, :path => '/')
-        response.set_cookie('test_name', :value => nil, :path => '/')
+        response.delete_cookie('category_name')
+        response.delete_cookie('site_name')
+        response.delete_cookie('test_name')
       end
       
       output = haml :'spec/fake_data', :layout => false

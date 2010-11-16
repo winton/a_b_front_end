@@ -45,3 +45,31 @@
 	margin-top: 13px;
 	padding: 18px 0 22px;
 }
+
+#front .one-line-code-example .sub-box .right {
+	font-size: 16px;
+	margin-top: -7px;
+	padding-right: 10px;
+}
+
+#front .one-line-code-example .sub-box .right a {
+	font-weight: normal;
+}
+
+#front #web_interface {
+	font-size: 1.438em;
+	line-height: 2.65em;
+	margin-top: 50px;
+}
+
+#front #web_interface .sub-box {
+	background-color: #fff !important;
+	background-image: url('/image/web_interface.png');
+	background-position: 3px 3px;
+	background-repeat: no-repeat;
+	height: 245px;
+}
+
+#front #web_interface ul {
+	padding-left: 35px;
+}

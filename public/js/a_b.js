@@ -197,7 +197,9 @@ window.A_B = new function() {
 					if (json[json.length - 1] == ',')
 						json.pop();
 					json.push(']');
-				} else if (typeof obj == 'string')
+				} else if (obj.constructor == Boolean)
+					json.push(obj + '');
+				else if (typeof obj == 'string')
 					json.push('"' + obj + '"');
 				else if (typeof obj == 'number')
 					json.push(obj);
