@@ -44,6 +44,7 @@
                 });
 
               });
+        #code_note Feel free to use Ruby and Javascript together or separately
   .clear
   .one-line-code-example
     Randomly select a variant to
@@ -74,8 +75,7 @@
         %a{ :href => '#' } Javascript
   #web_interface
     .span-12
-      .space-right
-        .sub-box
+      %img{ :src => '/image/web_interface.png' }
     .span-12.last
       .space-left
         %strong Control panel
@@ -83,3 +83,36 @@
           %li Define sites and environments
           %li Create categories, tests, and variants
           %li Review test results
+  .clear
+  #features
+    .span-12
+      #features_1
+        .span-6
+          .header Scalable
+          Battle-hardened on a Quantcast "Top 125" site serving 15 million pageviews per day.
+        .span-6.last
+          .header Easy Setup
+          Record test data locally and see it on the control panel within five minutes of signing up.
+      .clear
+      #features_2
+        .span-6
+          .header Open Source
+          Complete source code transparency. Dependable results and rapid feature development.
+        .span-6.last
+          .header Tiny Footprint
+          No databases to set up. Negligible performance impact. A worry-free addition to your app.
+    .span-12.last
+      .space-left
+        .highlight-box
+          .header Get Started
+          %form
+            .span-4 Email
+            .span-7.last
+              %input{ :type => 'text' }
+            .span-4 Password
+            .span-7.last
+              %input{ :type => 'password' }
+            .span-4 Confirm Password
+            .span-7.last
+              %input{ :type => 'password' }
+            .clear

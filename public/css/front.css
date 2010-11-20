@@ -30,6 +30,11 @@
 	margin-top: -13px;
 }
 
+#front #code_note {
+	color: #aaa;
+	margin-top: 5px;
+}
+
 #front pre {
 	margin: 0.2em 0 0;
 	padding: 6px 10px 10px;
@@ -57,19 +62,39 @@
 }
 
 #front #web_interface {
-	font-size: 1.438em;
-	line-height: 2.65em;
 	margin-top: 50px;
 }
 
-#front #web_interface .sub-box {
-	background-color: #fff !important;
-	background-image: url('/image/web_interface.png');
-	background-position: 3px 3px;
-	background-repeat: no-repeat;
-	height: 245px;
+#front #web_interface .space-left {
+	font-size: 1.438em;
+	line-height: 2.9em;
+	margin-top: -25px;
 }
 
 #front #web_interface ul {
+	margin-bottom: 0;
 	padding-left: 35px;
+}
+
+#front #features {
+	margin-top: 50px;
+}
+
+#front #features_2 {
+	margin-top: 25px;
+}
+
+#front #features .highlight-box {
+	margin-top: -8px;
+	padding: 5px 8px;
+}
+
+#front #features form {
+	margin: 15px 0 15px 15px;
+}
+
+#front #features input {
+	font-size: inherit;
+	margin: 0 0 15px;
+	width: 90%;
 }
