@@ -30,7 +30,7 @@
             .span-4.nav
               %a.sign_up Sign up
             .span-4.nav
-              %a{ :href => 'http://github.com/winton/a_b_plugin' } Github
+              %a{ :href => 'http://github.com/winton/a_b' } Github
             /
               .span-3.nav
                 %a{ :href => '/help' } Help
@@ -39,19 +39,19 @@
             .clear
             .dialog.sign_up.hide
               %form{ :action => '/users', :method => 'post' }
-                %label Email
-                %input.email{ :name => 'user[email]', :type => 'text' }
-                %label Password
-                %input.password{ :name => 'user[password]', :type => 'password' }
-                %label.confirm Confirm
-                %input.password{ :name => 'user[password_confirmation]', :type => 'password' }
+                %label{ :for => 'sign_up_email' } Email
+                %input.email{ :id => 'sign_up_email', :name => 'user[email]', :type => 'text' }
+                %label{ :for => 'sign_up_password' } Password
+                %input.password{ :id => 'sign_up_password', :name => 'user[password]', :type => 'password' }
+                %label.confirm{ :for => 'sign_up_password_confirmation' } Confirm
+                %input.password{ :id => 'sign_up_password_confirmation', :name => 'user[password_confirmation]', :type => 'password' }
                 %input.submit{ :type => 'submit', :value => 'Submit' }
             .dialog.log_in.hide
               %form{ :action => '/sessions', :method => 'post' }
-                %label Email
-                %input.email{ :name => 'session[email]', :type => 'text' }
-                %label Password
-                %input.password{ :name => 'session[password]', :type => 'password' }
+                %label{ :for => 'log_in_email' } Email
+                %input.email{ :id => 'log_in_email', :name => 'session[email]', :type => 'text' }
+                %label{ :for => 'log_in_password' } Password
+                %input.password{ :id => 'log_in_password', :name => 'session[password]', :type => 'password' }
                 %input.submit{ :type => 'submit', :value => 'Submit' }
       = yield
     = js 'jquery'

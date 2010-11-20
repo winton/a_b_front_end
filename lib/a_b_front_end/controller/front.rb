@@ -2,7 +2,7 @@ Application.class_eval do
   
   get '/' do
     if current_user
-      @sites = ABPlugin::API.sites(
+      @sites = AB::API.sites(
         :include => {
           :envs => true,
           :categories => {

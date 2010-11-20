@@ -3,7 +3,7 @@ Application.class_eval do
   post '/users' do
     @user = User.create(params[:user])
     if @user.id
-      ABPlugin::API.create_user(
+      AB::API.create_user(
         :identifier => @user.id,
         :token => @user.single_access_token
       )

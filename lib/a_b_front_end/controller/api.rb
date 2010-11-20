@@ -1,14 +1,14 @@
 Application.class_eval do
   
   delete '/categories.json' do
-    ABPlugin::API.delete_category(
+    AB::API.delete_category(
       :name => params[:name],
       :token => current_user.single_access_token
     ).to_json
   end
   
   post '/categories.json' do
-    ABPlugin::API.create_category(
+    AB::API.create_category(
       :name => params[:name],
       :site_id => params[:site_id],
       :token => current_user.single_access_token
@@ -16,7 +16,7 @@ Application.class_eval do
   end
   
   put '/categories.json' do
-    ABPlugin::API.update_category(
+    AB::API.update_category(
       :id => params[:id],
       :name => params[:name],
       :token => current_user.single_access_token
@@ -24,14 +24,14 @@ Application.class_eval do
   end
   
   delete '/envs.json' do
-    ABPlugin::API.delete_env(
+    AB::API.delete_env(
       :name => params[:name],
       :token => current_user.single_access_token
     ).to_json
   end
   
   post '/envs.json' do
-    ABPlugin::API.create_env(
+    AB::API.create_env(
       :domains => params[:domains].select { |d| !d.empty? }.join(','),
       :name => params[:name],
       :site_id => params[:site_id],
@@ -40,7 +40,7 @@ Application.class_eval do
   end
   
   put '/envs.json' do
-    ABPlugin::API.update_env(
+    AB::API.update_env(
       :domains => params[:domains].select { |d| !d.empty? }.join(','),
       :id => params[:id],
       :name => params[:name],
@@ -49,14 +49,14 @@ Application.class_eval do
   end
   
   delete '/sites.json' do
-    ABPlugin::API.delete_site(
+    AB::API.delete_site(
       :name => params[:name],
       :token => current_user.single_access_token
     ).to_json
   end
   
   post '/sites.json' do
-    ABPlugin::API.create_site(
+    AB::API.create_site(
       :include => params[:include],
       :name => params[:name],
       :only => params[:only],
@@ -65,7 +65,7 @@ Application.class_eval do
   end
   
   put '/sites.json' do
-    ABPlugin::API.update_site(
+    AB::API.update_site(
       :id => params[:id],
       :name => params[:name],
       :token => current_user.single_access_token
@@ -73,14 +73,14 @@ Application.class_eval do
   end
   
   delete '/tests.json' do
-    ABPlugin::API.delete_test(
+    AB::API.delete_test(
       :id => params[:id],
       :token => current_user.single_access_token
     ).to_json
   end
   
   post '/tests.json' do
-    ABPlugin::API.create_test(
+    AB::API.create_test(
       :category => params[:category],
       :include => params[:include] || { 
         :variants => {
@@ -95,7 +95,7 @@ Application.class_eval do
   end
   
   put '/tests.json' do
-    ABPlugin::API.update_test(
+    AB::API.update_test(
       :include => params[:include] || { 
         :variants => {
           :methods => :for_dashboard
@@ -111,7 +111,7 @@ Application.class_eval do
   end
   
   get '/tests/:id/reset.json' do
-    ABPlugin::API.reset_test(
+    AB::API.reset_test(
       :id => params[:id],
       :include => params[:include] || { 
         :variants => {
@@ -124,7 +124,7 @@ Application.class_eval do
   end
   
   get '/variants/:id/reset.json' do
-    ABPlugin::API.reset_variant(
+    AB::API.reset_variant(
       :id => params[:id],
       :include => params[:include],
       :only => params[:only],

@@ -44,7 +44,7 @@
                 });
 
               });
-        #code_note Feel free to use Ruby and Javascript together or separately
+        #code_note Feel free to use Javascript by itself or vice versa
   .clear
   .one-line-code-example
     Randomly select a variant to
@@ -106,13 +106,18 @@
         .highlight-box
           .header Get Started
           %form
-            .span-4 Email
+            .span-4
+              %label{ :for => 'get_started_email' } Email
             .span-7.last
-              %input{ :type => 'text' }
-            .span-4 Password
+              %input{ :id => 'get_started_email', :type => 'text' }
+            .span-4
+              %label{ :for => 'get_started_password' } Password
             .span-7.last
-              %input{ :type => 'password' }
-            .span-4 Confirm Password
+              %input{ :id => 'get_started_password', :type => 'password' }
+            .span-4
+              %label{ :for => 'get_started_confirm_password' } Confirm Password
             .span-7.last
-              %input{ :type => 'password' }
+              %input{ :id => 'get_started_confirm_password', :type => 'password' }
             .clear
+          .submit Submit
+          .clear

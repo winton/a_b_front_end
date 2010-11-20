@@ -7,12 +7,12 @@ Application.class_eval do
       response.delete_cookie('a_b_i')
       
       if request.cookies['category_name'] && request.cookies['site_name'] && request.cookies['test_name']
-        categories = ABPlugin::Config.categories
-        site = ABPlugin.site request.cookies['site_name']
+        categories = AB::Config.categories
+        site = AB.site request.cookies['site_name']
         if site != false
           @category = request.cookies['category_name']
           @test = request.cookies['test_name']
-          ABPlugin::Config.categories site['categories']
+          AB::Config.categories site['categories']
         end
         response.delete_cookie('category_name')
         response.delete_cookie('site_name')
@@ -20,14 +20,14 @@ Application.class_eval do
       end
       
       output = haml :'spec/fake_data', :layout => false
-      ABPlugin::Config.categories categories
+      AB::Config.categories categories
       
       output
     end
     
     get '/spec/js' do
-      categories = ABPlugin::Config.categories
-      ABPlugin::Config.categories [
+      categories = AB::Config.categories
+      AB::Config.categories [
         {
           :name => 'Category',
           :tests => [
@@ -44,9 +44,9 @@ Application.class_eval do
         }
       ]
       
-      ABPlugin::API.spec_js_setup
+      AB::API.spec_js_setup
       output = haml :'spec/js', :layout => false
-      ABPlugin::Config.categories categories
+      AB::Config.categories categories
       
       output
     end

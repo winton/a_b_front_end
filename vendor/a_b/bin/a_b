@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(File.dirname(__FILE__) + "/../lib/a_b")
+
+AB do
+  binary true
+  root Dir.pwd
+end
+
+AB.new

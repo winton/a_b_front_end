@@ -1,7 +1,7 @@
-$:.unshift File.expand_path(File.dirname(__FILE__) + '/../../../vendor/a_b_plugin/lib')
-require 'a_b_plugin'
+$:.unshift File.expand_path(File.dirname(__FILE__) + '/../../../vendor/a_b/lib')
+require 'a_b'
 
 Application.class_eval do
-  include ABPlugin::Adapters::Sinatra
-  ABPlugin.new
+  include AB::Adapters::Sinatra
+  AB.new
 end

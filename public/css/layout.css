@@ -7,6 +7,10 @@ body {
 	font-size: 100%;
 }
 
+label {
+	font-weight: normal;
+}
+
 .code {
 	font: 1em 'Droid Sans Mono', 'monaco', 'andale mono', 'lucida console', monospace !important;
 }
