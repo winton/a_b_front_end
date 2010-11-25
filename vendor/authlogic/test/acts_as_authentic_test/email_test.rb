@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper.rb'
+require 'test_helper'
 
 module ActsAsAuthenticTest
   class EmailTest < ActiveSupport::TestCase
@@ -71,6 +71,10 @@ module ActsAsAuthenticTest
       assert u.errors[:email].size > 0 
       
       u.email = "a@a.com"
+      u.valid?
+      assert u.errors[:email].size == 0
+      
+      u.email = "damien+test1...etc..@mydomain.com"
       u.valid?
       assert u.errors[:email].size == 0
       

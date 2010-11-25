@@ -39,7 +39,7 @@ module Authlogic
         #
         # or you can pass an array of objects:
         #
-        #   session.credentails = [my_user_object, true]
+        #   session.credentials = [my_user_object, true]
         #
         # and if you need to set an id, just pass it last. This value need be the last item in the array you pass, since the id is something that
         # you control yourself, it should never be set from a hash or a form. Examples:
@@ -51,6 +51,14 @@ module Authlogic
         
         def inspect
           "#<#{self.class.name}: #{credentials.blank? ? "no credentials provided" : credentials.inspect}>"
+        end
+        
+        def persisted?
+          !(new_record? || destroyed?)
+        end
+        
+        def to_key
+          new_record? ? nil : [ self.send(self.class.primary_key) ]
         end
         
         private
