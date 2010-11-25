@@ -8,7 +8,7 @@ Application.class_eval do
     :stdout => $0 != 'irb' && environment != :test
   )
   
+  ActiveRecord::Base.include_root_in_json = false
+  
   $db.establish_connection
-
-  ActionMailer::Base.raise_delivery_errors = true
 end
