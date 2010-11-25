@@ -6,13 +6,13 @@ unless defined?(AB::Gems)
     class Gems
     
       VERSIONS = {
-        :httparty => '=0.5.2',
-        :json => '=1.4.3',
-        :'rack-test' => '=0.5.3',
+        :httparty => '=0.6.1',
+        :json => '=1.4.6',
+        :'rack-test' => '=0.5.6',
         :rake => '=0.8.7',
         :rails => '=2.3.5',
-        :rspec => '=1.3.0',
-        :sinatra => '=1.0'
+        :rspec => '=1.3.1',
+        :sinatra => '=1.1.0'
       }
     
       TYPES = {
