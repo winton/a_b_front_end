@@ -5,10 +5,11 @@ ABFrontEnd::Gems.require(:spec)
 
 require 'rack/test'
 
+require "#{$root}/lib/gem_template"
+require 'pp'
+
 Spec::Runner.configure do |config|
 end
-
-require 'pp'
 
 # For use with rspec textmate bundle
 def debug(object)
